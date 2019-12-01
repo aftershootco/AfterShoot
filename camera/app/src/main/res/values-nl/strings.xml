@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Eenvoudige Camera</string>
+    <string name="app_launcher_name">Camera</string>
+    <string name="camera_unavailable">Camera niet beschikbaar</string>
+    <string name="camera_open_error">Fout opgetreden bij toegang verkrijgen tot de camera</string>
+    <string name="video_creating_error">Fout opgetreden bij aanmaken van videobestand</string>
+    <string name="video_mode_error">Schakelen naar de videomodus is mislukt</string>
+    <string name="save_error_internal_storage">Er is een fout opgetreden, de doelmap is gewijzigd naar interne opslag</string>
+    <string name="camera_switch_error">Schakelen van camera is mislukt</string>
+    <string name="click_to_resume_preview">Klik op de afbeelding om voorbeeldweergave te hervatten</string>
+    <string name="photo_not_saved">Foto kon niet worden opgeslagen</string>
+    <string name="setting_resolution_failed">Instellen van resolutie is mislukt</string>
+    <string name="video_recording_failed">Video-opname is mislukt, probeer nogmaals met een andere resolutie</string>
+
+    <!-- Other aspect ratio -->
+    <string name="other">Anders</string>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Welke kwaliteit voor foto\'s moet ik instellen?</string>
+    <string name="faq_1_text">Voor normaal gebruik adviseren de meeste mensen een compressie van 75%-80%. De afbeelding zal dan nog steeds van goede kwaliteit zijn en de bestandsgrootte zal enorm veel kleiner zijn dan met 100%.</string>
+
+    <!-- Settings -->
+    <string name="save_photos">Foto\'s en video\'s opslaan in</string>
+    <string name="show_preview">Voorbeeld tonen het na nemen van een foto</string>
+    <string name="shutter_sound">Sluitergeluid</string>
+    <string name="back_camera">Resoluties camera achterop</string>
+    <string name="front_camera">Resoluties camera voorop</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
+    <string name="focus_before_capture">Voor opname eerst scherpstellen</string>
+    <string name="volume_buttons_as_shutter">Volumeknoppen als sluiterknop gebruiken</string>
+    <string name="turn_flash_off_at_startup">Flitser bij opstarten uitschakelen</string>
+    <string name="flip_front_camera_photos_horizontally">Foto\'s van camera voorop horizontaal spiegelen</string>
+    <string name="keep_settings_visible">Knop Instellingen altijd tonen</string>
+    <string name="always_open_back_camera">Bij openen app altijd camera achterop activeren</string>
+    <string name="save_photo_metadata">EXIF-metadata in foto\'s opslaan</string>
+    <string name="photo_compression_quality">Kwaliteit foto\'s</string>
+    <string name="shutter">Sluiter</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Eenvoudige Camera - Geen onnodige functies</string>
+    <!-- Short description has to have less than 80 chars -->
+    <string name="app_short_description">Herinneringen creëren is nog nooit zo eenvoudig geweest.</string>
+    <string name="app_long_description">
+        De camera is geschikt voor zowel foto\'s als video\'s en biedt de mogelijkheid tot schakelen tussen de camera\'s voorop en achterop, het instellen van opslaglocatie en resolutie. De flitser kan worden gebruikt voor opnames en als zaklamp. In- en uitzoomen kan met knijpgebaren.
+
+        Om deze app te gebruiken voor de cameraknop op het toestel is het wellicht nodig om de app \"Camera\" via Instellingen -> Apps uit te schakelen.
+
+        Bevat geen advertenties of onnodige machtigingen. Volledig open-source. Kleuren van de app kunnen worden aangepast.
+
+        Deze app is onderdeel van een grotere verzameling. Vind de andere apps op https://www.simplemobiletools.com
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>

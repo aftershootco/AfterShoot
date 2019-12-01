@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Schlichte Kamera</string>
+    <string name="app_launcher_name">Kamera</string>
+    <string name="camera_unavailable">Kamera nicht verfügbar</string>
+    <string name="camera_open_error">Beim Zugriff auf die Kamera ist ein Fehler aufgetreten</string>
+    <string name="video_creating_error">Beim Erstellen der Videodatei ist ein Fehler aufgetreten</string>
+    <string name="video_mode_error">Beim Umschalten zum Videomodus ist ein Fehler aufgetreten</string>
+    <string name="save_error_internal_storage">Ein Fehler ist aufgetreten. Speicherordner wurde auf den internen Speicher gesetzt</string>
+    <string name="camera_switch_error">Kamerawechsel fehlgeschlagen</string>
+    <string name="click_to_resume_preview">Klicke auf das Bild, um bei der Vorschau zu bleiben</string>
+    <string name="photo_not_saved">Das Foto konnte nicht gespeichert werden</string>
+    <string name="setting_resolution_failed">Korrekte Auflösung konnte nicht eingestellt werden</string>
+    <string name="video_recording_failed">Videoaufzeichnung fehlgeschlagen, probiere eine andere Auflösung aus</string>
+
+    <!-- Other aspect ratio -->
+    <string name="other">andere</string>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Was für eine Fotokomprimierungsqualität soll ich einstellen?</string>
+    <string name="faq_1_text">Das hängt von deinem Ziel ab. Für allgemeine Zwecke empfehlen die meisten 75 - 80 %, wodurch die Qualität immer noch sehr gut bleibt, aber die Dateigrösse drastisch reduziert ist im Vergleich zu 100 %.</string>
+
+    <!-- Settings -->
+    <string name="save_photos">Fotos und Videos speichern nach</string>
+    <string name="show_preview">Vorschau des Fotos nach der Aufnahme anzeigen</string>
+    <string name="shutter_sound">Auslöseton</string>
+    <string name="back_camera">Rückkamera-Auflösung</string>
+    <string name="front_camera">Frontkamera-Auflösung</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
+    <string name="focus_before_capture">Vor der Aufnahme fokussieren</string>
+    <string name="volume_buttons_as_shutter">Lautstärkeregler als Auslöser verwenden</string>
+    <string name="turn_flash_off_at_startup">Blitzlicht bei Start ausschalten</string>
+    <string name="flip_front_camera_photos_horizontally">Fotos der Frontkamera horizontal drehen</string>
+    <string name="keep_settings_visible">Taste für Einstellungen immer sichtbar</string>
+    <string name="always_open_back_camera">Anwendung immer mit der Rückkamera starten</string>
+    <string name="save_photo_metadata">Exif-Metadaten speichern</string>
+    <string name="photo_compression_quality">Fotokomprimierungsqualität</string>
+    <string name="shutter">Verschluss</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple Camera - Contains no unnecessary functions</string>
+    <!-- Short description has to have less than 80 chars -->
+    <string name="app_short_description">Creating memories has never been easier.</string>
+    <string name="app_long_description">
+        Die Kamera kann sowohl zum Schießen von Fotos, als auch zum Aufnehmen von Videos genutzt werden. Wechsle zwischen Front- und Rückkamera, verändere den Pfad, in dem Bilder gespeichert werden, oder ändere die Bildauflösung. Der Blitz kann ein- und ausgeschaltet werden oder als Taschenlampe benutzt werden. Mit den Fingern kann gezoomt werden.
+
+        Falls du diese App durch einen Hardware-Kameraknopf starten möchtest, musst du vielleicht die vorinstallierte Kamera-App erst deaktivieren, unter Einstellungen -> Apps -> Kamera -> deaktivieren.
+
+        Beinhaltet keine Werbung oder unnötige Berechtigungen. Sie ist komplett Open Source, alle verwendeten Farben sind anpassbar.
+
+        Diese App ist nur eine aus einer größeren Serie von schlichten Apps. Der Rest davon findet sich auf https://www.simplemobiletools.com
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>

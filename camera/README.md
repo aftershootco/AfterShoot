@@ -6,4 +6,4 @@ Features :
 - [ ] Identify Bad Pictures  
 - [ ] Apply/Suggest Recommended Fixes  
 
-The camera module was based on the Open Source Camera Client called (Simple Camera)[https://github.com/SimpleMobileTools/Simple-Camera]
+The camera module is based on the Open Source Camera Client called [Simple Camera](https://github.com/SimpleMobileTools/Simple-Camera)

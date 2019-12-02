@@ -1,7 +1,6 @@
 package com.simplemobiletools.camera.activities
 
 import com.simplemobiletools.camera.R
-import com.simplemobiletools.commons.activities.BaseSimpleActivity
 
 open class SimpleActivity : BaseSimpleActivity() {
     override fun getAppIconIDs() = arrayListOf(

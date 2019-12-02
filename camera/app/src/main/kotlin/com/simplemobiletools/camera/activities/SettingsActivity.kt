@@ -1,12 +1,10 @@
 package com.simplemobiletools.camera.activities
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import com.simplemobiletools.camera.BuildConfig
 import com.simplemobiletools.camera.R
 import com.simplemobiletools.camera.extensions.config
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
+import com.simplemobiletools.camera.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.LICENSE_GLIDE
@@ -40,20 +38,6 @@ class SettingsActivity : SimpleActivity() {
         updateTextColors(settings_holder)
         setupSectionColors()
         invalidateOptionsMenu()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        updateMenuItemColors(menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.about -> launchAbout()
-            else -> super.onOptionsItemSelected(item)
-        }
-        return true
     }
 
     private fun setupSectionColors() {

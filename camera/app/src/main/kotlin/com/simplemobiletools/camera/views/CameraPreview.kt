@@ -28,6 +28,7 @@ import com.simplemobiletools.camera.R
 import com.simplemobiletools.camera.activities.MainActivity
 import com.simplemobiletools.camera.dialogs.ChangeResolutionDialog
 import com.simplemobiletools.camera.extensions.config
+import com.simplemobiletools.camera.extensions.deleteFile
 import com.simplemobiletools.camera.extensions.getOutputMediaFile
 import com.simplemobiletools.camera.helpers.*
 import com.simplemobiletools.camera.implementations.MyCameraImpl

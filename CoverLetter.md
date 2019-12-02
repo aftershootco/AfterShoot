@@ -34,8 +34,8 @@ My timeline for the project is :
   - [ ] Best image from Duplicates, Sad Faces in an image, Cropped human faces, Foreign Objects in the picture - **Work in Progress**
 - **January - February 2019:** Work on a model that will take the flaw in the image (determined from the models above) and apply or suggest a fix that can be made to improve that image.
 - **March 2019:** Add finishing touches to the camera app and integrate it with the ML models
-- **April 2019:** Finish working on the app module that will scan the user&#39;s gallery for bad images.
-- **May 2019:** Beta test of the first version of the app
+- **April 2019:** Finish working on the app module that will scan user's gallery for bad images.
+- **May 2019:** Beta launch of the initial version of the app
 
 Most of the source code I currently have is for training the models above, so I won&#39;t be able to share it at the moment. Source code for the camera, however, will be made public before the beta release of the app.
 

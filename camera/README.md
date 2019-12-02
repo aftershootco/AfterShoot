@@ -1,5 +1,7 @@
 # Camera Module for AfterShoot
 
+![](https://i.imgur.com/Ll5gA1F.png)
+
 Features :   
 - [x] Taking Pictures  
 - [x] Recording Videos  

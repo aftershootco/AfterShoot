@@ -31,8 +31,6 @@ We&#39;re currently working on the models to identify and filter out good shots 
 
 Google has already worked on identifying good shots from bad shots with Google Clips and we believe that the learning that Google had from Google Clips can help us accelerate the development of this project.
 
-- (blurry, blinks, duplicates, overexposed, underexposed, sad faces, foreign object, cropped faces, etc.)
-
 Our timeline for the project is :
 
 - **November - December 2019** : Complete working on the models that identify potentially bad pictures :

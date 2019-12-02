@@ -28,10 +28,10 @@ Google has already worked on identifying good shots from bad shots with Google C
 My timeline for the project is :
 
 - **November - December 2019:** Complete working on the models that identify potentially bad pictures :
-  - Blurry/Out of Focus - **Done**
-  - Blinks - **Done**
-  - Over/Underexposed - **Done**
-  - Best image from Duplicates, Sad Faces in an image, Cropped human faces, Foreign Objects in the picture - **Work in Progress**
+  - [x] Blurry/Out of Focus - **Done** 
+  - [x] Blinks - **Done**
+  - [x] Over/Underexposed - **Done**
+  - [ ] Best image from Duplicates, Sad Faces in an image, Cropped human faces, Foreign Objects in the picture - **Work in Progress**
 - **January - February 2019:** Work on a model that will take the flaw in the image (determined from the models above) and apply or suggest a fix that can be made to improve that image.
 - **March 2019:** Add finishing touches to the camera app and integrate it with the ML models
 - **April 2019:** Finish working on the app module that will scan the user&#39;s gallery for bad images.

@@ -1,19 +1,20 @@
 ## Tell us what your idea is
 
- With phones like Pixels constantly pushing the limits of mobile camera hardware and software, recent years have seen a significant push towards mobile photography. As per [statista](https://www.statista.com/chart/10913/number-of-photos-taken-worldwide/), more than **1.2 trillion digital images** were captured in 2018, out of which, **over 85% were taken on a smartphone**. And while services like Google Photos can help people solve the storage problem, there is room for improvement when it comes to managing the clutter in each and every phone&#39;s gallery.
+With phones constantly pushing the limits of mobile camera hardware and software, recent years have seen a significant push towards mobile photography. As per [statista](https://www.statista.com/chart/10913/number-of-photos-taken-worldwide/), more than **1.2 trillion digital images** were captured in 2018, out of which, **over 85% were taken on a smartphone**. And while services like Google Photos can help people solve the storage problem, there is room for improvement when it comes to managing the clutter in each and every phone's gallery.
 
 AfterShoot is a camera app that aims to be a second pair of eyes that analyses all the pictures in real-time as you take them.
 
-It filters out the potentially bad shots and recommends improvements that can be made to them.  
+It filters out the potentially bad pictures and recommends improvements that can be made to them.  
 The recommendation engine has been trained on pictures captured by a variety of sources ranging from professionals to hobbyist photographers and various photography techniques like **Rule of Thirds, Rule of Depth** and the **Golden Ratio** to identify an aesthetically pleasing image from a bad one.
 
 Aftershoot can also scan the photos in your gallery to help clear the clutter and help you manage your storage efficiently.
 
-Google&#39;s services I plan on using :
+Google's services I plan on using :
 
-1. AutoML for training models to detect bad picture
-2. Tensorflow to train the model to take parameters for a bad picture and suggest potential fixes
-3. Firebase MLKit to serve these models and run them on the device
+1. AutoML Vision Edge for training models to detect potentially bad and good pictures.
+2. Tensorflow to train the model to take parameters for a bad picture and suggest potential fixes.
+3. Firebase MLKit to serve these models and run them locally on the device.
+4. Firebase for tracking app quality.
 
 ## Tell us how you plan on bringing it to life
 
@@ -40,9 +41,9 @@ Most of the source code I currently have is for training the models above, so I 
 
 ## Tell us about you
 
-Android Developer and an avid tech blogger, I&#39;m passionate about anything and everything related to Android. Currently a Google Developer Expert for Firebase; I am also one of the first Google-certified Android developers based out of India. Being an Open Source enthusiast, I&#39;ve been a regular part of programs like Google Summer of Code and Google Code-In, both as a Mentor and a student.
+[Android Developer](https://harshithd.com/) and an [avid tech blogger](https://medium.com/@harshithdwivedi), I&#39;m passionate about anything and everything related to Android. Currently a Google Developer Expert for Firebase; I am also one of the first Google-certified Android developers based out of India. Being an Open Source enthusiast, I&#39;ve been a regular part of programs like Google Summer of Code and Google Code-In, both as a Mentor and a student.
 
-Other than Google, I&#39;ve been a regular contributor to Open Source Organizations like Apache, Redhat, and FOSSASIA. Recently I have been inclined towards my new found interest that combines my knowledge of Mobile Development with Machine Learning to create smart mobile applications.
+Other than Google, I've been a regular contributor to Open Source Organizations like Apache, Redhat, and FOSSASIA. Recently I have been inclined towards my new found interest that combines my knowledge of Mobile Development with Machine Learning to create smart mobile applications.
 
 Android Projects that I have worked on in the past:
 

@@ -4,9 +4,8 @@
 
 AfterShoot is a camera app that aims to be a second pair of eyes that analyses all the pictures in real-time as you take them.
 
-It filters out the potentially bad shots and recommends improvements that can be made to them.
-
-It&#39;s recommendation engine has been trained on pictures captured by a variety of sources ranging from professionals to hobbyist photographers and various photography techniques like **Rule of Thirds, Rule of Depth** and the **Golden Ratio** to identify an aesthetically pleasing image from a bad one.
+It filters out the potentially bad shots and recommends improvements that can be made to them.  
+The recommendation engine has been trained on pictures captured by a variety of sources ranging from professionals to hobbyist photographers and various photography techniques like **Rule of Thirds, Rule of Depth** and the **Golden Ratio** to identify an aesthetically pleasing image from a bad one.
 
 Aftershoot can also scan the photos in your gallery to help clear the clutter and help you manage your storage efficiently.
 

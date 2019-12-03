@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <com.simplemobiletools.camera.views.AutoFitTextureView
+    <com.aftershoot.camera.views.AutoFitTextureView
         android:id="@+id/camera_texture_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

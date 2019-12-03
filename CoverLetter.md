@@ -48,7 +48,7 @@ Other than Google, I've been a regular contributor to Open Source Organizations 
 Android Projects that I have worked on in the past:
 
 1. [Offix-Android:](https://github.com/aerogear/offix-android) Worked as a maintainer of this open-source SDK that provided offline support and Conflict Resolution for people using GraphQL in their Android Apps.
-2. [Coding Blocks:](https://github.com/coding-blocks/CBOnlineApp) Built an e-learning app which allows users to view, buy and download videos for the online coding courses provided by [Coding Blocks](https://codingblocks.com/).
+2. [Coding Blocks Android:](https://github.com/coding-blocks/CBOnlineApp) Built an e-learning app which allows users to view, buy and download videos for the online coding courses provided by [Coding Blocks](https://codingblocks.com/).
 2. [Open Event Android:](https://github.com/fossasia/open-event-droidgen) Worked on an Android App Generator project that helped Event Organizers to generate Android and Web apps for their event with a single click
 3. [Pokidex:](https://play.google.com/store/apps/details?id=app.harshit.pokedex&amp;hl=en_IN) Android app that identifies Pokemon from the captured image, a real-life Pokedex
 4. [CrapCons:](https://play.google.com/store/apps/details?id=com.dagger.crapcons) An icon pack with a twist! CrapCons was the first icon pack for Android with all its assets made entirely in MS Paint.

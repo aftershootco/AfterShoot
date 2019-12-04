@@ -47,7 +47,7 @@ Other than Google, I've been a regular contributor to Open Source Organizations 
 
 Android Projects that I have worked on in the past:
 
-1. [AiExhibit:](http://aiexhibit.org/) Helped New York's first Artificial Intelligence Museum with demos for apps Using Machine Learning to detect Objects, Predict Age, Identify Landmarks and Label Images.
+1. [AiExhibit:](http://aiexhibit.org/) Worked with [HP Newquist](https://en.wikipedia.org/wiki/HP_Newquist) to build demos for America's first Artificial Intelligence Exhibition using Machine Learning to detect Objects, Predict Age, Identify Landmarks and Label Images.
 2. [Offix-Android:](https://github.com/aerogear/offix-android) Worked as a maintainer of this open-source SDK that provided offline support and Conflict Resolution for people using GraphQL in their Android Apps.
 3. [Coding Blocks Android:](https://github.com/coding-blocks/CBOnlineApp) Built an e-learning app which allows users to view, buy and download videos for the online coding courses offered by [Coding Blocks](https://codingblocks.com/).
 4. [Open Event Android:](https://github.com/fossasia/open-event-droidgen) Worked on an Android App Generator project that helped Event Organizers to generate Android and Web apps for their event with a single click.

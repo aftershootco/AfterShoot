@@ -20,7 +20,7 @@ Google's services I plan on using :
 
 I&#39;m currently working on the models to identify and filter out good shots from the bad ones and so far I have:
 
-1. Built the model that identifies blurry, overexposed, underexposed and best shot from duplicate shots : **[models/README.md](models/README.md)**
+1. Built the model that identifies blurry, overexposed, underexposed and pictures having considerable amount of people blinking : **[models/README.md](models/README.md)**
 2. Made a skeleton camera app (built upon the open-source AOSP camera) which will be integrated with the models above : **[camera/README.md](camera/README.md)**
 
 Google has already worked on identifying good shots from bad shots with Google Clips and I believe that the learning that Google had from Google Clips can help me accelerate the development of this project.

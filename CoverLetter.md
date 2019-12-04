@@ -47,10 +47,11 @@ Other than Google, I've been a regular contributor to Open Source Organizations 
 
 Android Projects that I have worked on in the past:
 
-1. [Offix-Android:](https://github.com/aerogear/offix-android) Worked as a maintainer of this open-source SDK that provided offline support and Conflict Resolution for people using GraphQL in their Android Apps.
-2. [Coding Blocks Android:](https://github.com/coding-blocks/CBOnlineApp) Built an e-learning app which allows users to view, buy and download videos for the online coding courses offered by [Coding Blocks](https://codingblocks.com/).
-2. [Open Event Android:](https://github.com/fossasia/open-event-droidgen) Worked on an Android App Generator project that helped Event Organizers to generate Android and Web apps for their event with a single click.
-3. [Pokidex:](https://play.google.com/store/apps/details?id=app.harshit.pokedex&amp;hl=en_IN) Android app that identifies Pokemon from the captured image, a real-life Pokedex.
-4. [CrapCons:](https://play.google.com/store/apps/details?id=com.dagger.crapcons) An icon pack with a twist! CrapCons was the first icon pack for Android with all its assets made entirely in MS Paint.
-5. [ZooperCrap](https://play.google.com/store/apps/details?id=com.adam.zwskin.zoopercrap&amp;hl=en_IN): Widget extension for CrapCons.
-6. [Sixgrid](https://play.google.com/store/apps/details?id=io.pure.sixgrid): A minimal and battery-friendly launcher for Android.
+1. [AiExhibit: ](http://aiexhibit.org/) : Helped New York's first Artificial Intelligence Museum with demos for apps Using Machine Learning to detect Objects, Predict Age, Identify Landmarks and Label Images.
+2. [Offix-Android:](https://github.com/aerogear/offix-android) Worked as a maintainer of this open-source SDK that provided offline support and Conflict Resolution for people using GraphQL in their Android Apps.
+3. [Coding Blocks Android:](https://github.com/coding-blocks/CBOnlineApp) Built an e-learning app which allows users to view, buy and download videos for the online coding courses offered by [Coding Blocks](https://codingblocks.com/).
+4. [Open Event Android:](https://github.com/fossasia/open-event-droidgen) Worked on an Android App Generator project that helped Event Organizers to generate Android and Web apps for their event with a single click.
+5. [Pokidex:](https://play.google.com/store/apps/details?id=app.harshit.pokedex&amp;hl=en_IN) Android app that identifies Pokemon from the captured image, a real-life Pokedex.
+6. [CrapCons:](https://play.google.com/store/apps/details?id=com.dagger.crapcons) An icon pack with a twist! CrapCons was the first icon pack for Android with all its assets made entirely in MS Paint.
+7. [ZooperCrap](https://play.google.com/store/apps/details?id=com.adam.zwskin.zoopercrap&amp;hl=en_IN): Widget extension for CrapCons.
+8. [Sixgrid](https://play.google.com/store/apps/details?id=io.pure.sixgrid): A minimal and battery-friendly launcher for Android.

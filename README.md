@@ -1,4 +1,4 @@
-![](https://i.imgur.com/d2vQTlO.png)  
+![](https://i.imgur.com/FGF9b1J.jpg)
 
 ### AfterShoot
 Your personal photographer is just a click away.  

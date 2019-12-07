@@ -41,7 +41,7 @@ Most of the source code I currently have is for training the models above, so I 
 
 ## Tell us about you
 
-[Android Developer](https://harshithd.com/) and an [avid tech blogger](https://medium.com/@harshithdwivedi), I&#39;m passionate about anything and everything related to Android. Currently a Google Developer Expert for Firebase; I am also one of the first Google-certified Android developers based out of India. Being an Open Source enthusiast, I&#39;ve been a regular part of programs like Google Summer of Code and Google Code-In, both as a Mentor and a student.
+[Android Developer](https://harshithd.com/) and an [avid tech blogger](https://medium.com/@harshithdwivedi), I&#39;m passionate about anything and everything related to Android. Currently a Google Developer Expert for Firebase; I am also [one of the first](https://www.youtube.com/watch?v=zfVoxusy-0M) Google-certified Android developers based out of India. Being an Open Source enthusiast, I&#39;ve been a regular part of programs like Google Summer of Code and Google Code-In, both as a Mentor and a student.
 
 Other than Google, I've been a regular contributor to Open Source Organizations like Apache, Redhat, and FOSSASIA. Recently I have been inclined towards my new found interest that combines my knowledge of Mobile Development with Machine Learning to create smart mobile applications.
 

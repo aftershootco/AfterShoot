@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AfterShoot Declutter</string>
+    <string name="app_name">DeClutter by AfterShoot</string>
+    <string name="loading_local_images">Please wait, loading your local images ...</string>
 </resources>

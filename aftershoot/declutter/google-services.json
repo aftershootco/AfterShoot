@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "657981723167",
+    "firebase_url": "https://aftershoot.firebaseio.com",
+    "project_id": "aftershoot",
+    "storage_bucket": "aftershoot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657981723167:android:e280196d40a05e3f8e3b2a",
+        "android_client_info": {
+          "package_name": "com.aftershoot.declutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657981723167-vnbck1mp2rt4qas61gp2hi2noo9hkeb5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aftershoot.declutter",
+            "certificate_hash": "5c145291373cbf41ebccbc0816bbee0330505c25"
+          }
+        },
+        {
+          "client_id": "657981723167-ifcav6i30afn09ni4us6o86odh16hlro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcHT98ho8vCN9fMn4ZZ8oxZX4SkG8YgT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657981723167-ifcav6i30afn09ni4us6o86odh16hlro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

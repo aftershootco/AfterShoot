@@ -25,8 +25,8 @@ class ProgressActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg p0: Int?) {
 
-            for (i in 1..10!!) {
-                Thread.sleep(10)
+            for (i in 1..p0[0]!!) {
+                Thread.sleep(50)
                 publishProgress(i)
             }
 

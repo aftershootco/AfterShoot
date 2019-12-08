@@ -8,7 +8,7 @@ AfterShoot is an AI powered camera that helps you take better pictures and manag
 This is an extension to the AfterShoot camera app, that will query the internal storage for all the images and filter the bad pictures from the bunch.
 
 ![](https://i.imgur.com/DYNJ1WE.png)
-
+![](https://i.imgur.com/ip5JMHW.png)
 
 ### Feature List
 - [x] Permission Handling

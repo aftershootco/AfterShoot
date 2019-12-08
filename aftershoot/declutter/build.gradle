@@ -39,4 +39,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //intro slider
     implementation 'com.github.AppIntro:AppIntro:5.1.0'
+    implementation 'com.nshmura:snappyimageviewer:1.1.0'
+    implementation 'com.github.piasy:BigImageViewer:1.6.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.airbnb.android:lottie:3.1.0'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 }

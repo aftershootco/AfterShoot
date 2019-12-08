@@ -6,4 +6,5 @@
     <color name="primaryTextColor">#373737</color>
     <color name="primaryTextLightColor">#8e8e8e</color>
     <color name="bgColor">#fafafa</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>

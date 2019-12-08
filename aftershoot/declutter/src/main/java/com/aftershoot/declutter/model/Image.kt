@@ -1,5 +1,5 @@
 package com.aftershoot.declutter.model
 
-import android.net.Uri
+import java.io.File
 
-data class Image(val uri : Uri, val name : String, val size : Int, val dateTaken : String?)
+data class Image(val file : File)

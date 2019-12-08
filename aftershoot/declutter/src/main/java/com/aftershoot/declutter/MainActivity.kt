@@ -2,10 +2,8 @@ package com.aftershoot.declutter
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -14,21 +12,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.aftershoot.declutter.model.Image
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
     //Execute order 66
     val RQ_CODE_INTRO = 66
 
-    val imageList = mutableListOf<Image>()
-    val projection = arrayOf(
-            MediaStore.Images.ImageColumns._ID,
-            MediaStore.Images.ImageColumns.DATE_ADDED,
-            MediaStore.Images.ImageColumns.SIZE,
-            MediaStore.Images.ImageColumns.DISPLAY_NAME
-    )
-    val sortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
+    companion object {
+        //for now, move this to a local database later :)
+        val imageList = arrayListOf<Image>()
+    }
 
+    var uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+    // Add scoped storage compatibility
+    var projection = arrayOf(MediaStore.MediaColumns.DATA)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity() {
             showSliderAndLogin()
         } else {
             queryStorage()
+            btnDone.setOnClickListener {
+                val intent = Intent(this, ProgressActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 
@@ -50,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RQ_CODE_INTRO && resultCode == Activity.RESULT_OK) {
             queryStorage()
+            btnDone.setOnClickListener {
+                val intent = Intent(this, ProgressActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         } else {
             Toast.makeText(this, "Something went wrong, please restart the app!", Toast.LENGTH_SHORT).show()
         }
@@ -57,35 +67,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun queryStorage() {
         val query = contentResolver.query(
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                uri,
                 projection,
                 null,
                 null,
-                sortOrder
+                null
         )
 //        progressBar.visibility = View.VISIBLE
         tvProgress.text = getString(R.string.loading_local_images)
         query.use { cursor ->
 
             cursor?.let {
-                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns._ID)
-                val dateAddedColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED)
-                val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.SIZE)
-                val nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
 
                 while (cursor.moveToNext()) {
-                    // Get values of columns for a given video.
-                    val id = cursor.getLong(idColumn)
-                    val name = cursor.getString(nameColumn)
-                    val dateAdded = cursor.getString(dateAddedColumn)
-                    val size = cursor.getInt(sizeColumn)
-
-                    val contentUri: Uri = ContentUris.withAppendedId(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            id
-                    )
-
-                    imageList.add(Image(contentUri, name, size, dateAdded))
+                    val absolutePathOfImage = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+                    imageList.add(Image(File(absolutePathOfImage)))
                 }
             }
         }

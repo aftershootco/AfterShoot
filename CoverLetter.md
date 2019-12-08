@@ -7,13 +7,13 @@ AfterShoot is a camera app that aims to be a second pair of eyes that analyses a
 It filters out the potentially bad pictures and recommends improvements that can be made to them.  
 The recommendation engine has been trained on pictures captured by a variety of sources ranging from professionals to hobbyist photographers and various photography techniques like **Rule of Thirds, Rule of Depth** and the **Golden Ratio** to identify an aesthetically pleasing image from a bad one.
 
-Aftershoot can also scan the photos in your gallery to help clear the clutter and help you manage your storage efficiently.
+Aftershoot also packages a DeClutter module that can analyze and filter bad photos from your gallery which allows you to manage your storage efficiently.
 
 Google's services I plan on using :
 
 1. AutoML Vision Edge for training models to detect potentially bad and good pictures.
-2. Tensorflow to train the model to take parameters for a bad picture and suggest potential fixes.
-3. Firebase MLKit to serve these models and run them locally on the device.
+2. Tensorflow Lite to train a custom model that takes parameters for a bad picture and suggests potential fixes.
+3. Firebase MLKit for hosting these models and running them locally.
 4. Firebase for tracking app quality.
 
 ## Tell us how you plan on bringing it to life
@@ -21,7 +21,7 @@ Google's services I plan on using :
 I&#39;m currently working on the models to identify and filter out good shots from the bad ones and so far I have:
 
 1. Built the model that identifies blurry, overexposed, underexposed and pictures having considerable amount of people blinking : **[models/README.md](models/README.md)**
-2. Made a skeleton camera app (built upon the open-source AOSP camera) which will be integrated with the models above : **[aftershoot/README.md](aftershoot/README.md)**
+2. Started working on the Camera and the DeClutter modules which will be integrated with the trained models above : **[aftershoot/README.md](aftershoot/README.md)**
 
 Google has already worked on identifying good shots from bad shots with Google Clips and I believe that the learning that Google had from Google Clips can help me accelerate the development of this project.
 

@@ -1,1 +1,1 @@
-include ':camera', ':declutter'
+include ':declutter', ':camera'

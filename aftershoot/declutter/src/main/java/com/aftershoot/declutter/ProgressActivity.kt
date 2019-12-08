@@ -25,6 +25,7 @@ class ProgressActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg p0: Int?) {
 
+            //Hardcoded for now, will add the model processing here
             for (i in 1..p0[0]!!) {
                 Thread.sleep(50)
                 publishProgress(i)

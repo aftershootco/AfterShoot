@@ -13,7 +13,7 @@ This is an extension to the AfterShoot camera app, that will query the internal 
 - [ ] Handle deleton
 - [ ] Handle user feedback
 - [ ] Add Login
-- [ ] Connect with Images stored on Google Images
+- [ ] Connect an analyze Images backed up on Google Photos
 
 
 ## AfterShoot Camera

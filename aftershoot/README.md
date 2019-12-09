@@ -1,10 +1,10 @@
-# Camera and DeClutter Modules for AfterShoot
+# DeClutter and Camera Modules for AfterShoot
 
 ## DeClutter
 This is an extension to the AfterShoot camera app, that will query the internal storage for all the images and filter the bad pictures from the bunch.
 
 ![](https://i.imgur.com/DYNJ1WE.png)
-
+![](https://i.imgur.com/KokdGiC.png)
 
 ### Feature List
 - [x] Permission Handling
@@ -13,7 +13,7 @@ This is an extension to the AfterShoot camera app, that will query the internal 
 - [ ] Handle deleton
 - [ ] Handle user feedback
 - [ ] Add Login
-- [ ] Connect with Images stored on Google Images
+- [ ] Connect and analyze Images backed up on Google Photos
 
 
 ## AfterShoot Camera

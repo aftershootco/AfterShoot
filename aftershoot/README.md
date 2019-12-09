@@ -1,4 +1,4 @@
-# Camera and DeClutter Modules for AfterShoot
+# DeClutter and Camera Modules for AfterShoot
 
 ## DeClutter
 This is an extension to the AfterShoot camera app, that will query the internal storage for all the images and filter the bad pictures from the bunch.

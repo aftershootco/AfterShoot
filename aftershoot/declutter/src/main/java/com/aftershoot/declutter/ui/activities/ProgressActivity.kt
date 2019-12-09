@@ -1,11 +1,12 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui.activities
 
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.aftershoot.declutter.MainActivity.Companion.imageList
+import com.aftershoot.declutter.R
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
 import kotlinx.android.synthetic.main.activity_progress.*
 
 class ProgressActivity : AppCompatActivity() {
@@ -30,7 +31,6 @@ class ProgressActivity : AppCompatActivity() {
                 Thread.sleep(50)
                 publishProgress(i)
             }
-
         }
 
         override fun onProgressUpdate(vararg values: Int?) {

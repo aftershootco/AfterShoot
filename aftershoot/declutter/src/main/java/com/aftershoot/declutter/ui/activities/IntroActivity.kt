@@ -1,4 +1,4 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui.activities
 
 import android.Manifest
 import android.app.Activity
@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.aftershoot.declutter.R
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import com.github.paolorotolo.appintro.model.SliderPage

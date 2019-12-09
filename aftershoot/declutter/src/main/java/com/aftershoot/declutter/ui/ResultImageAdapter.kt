@@ -1,4 +1,4 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.database.Cursor
@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_grid.view.*

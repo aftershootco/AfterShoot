@@ -1,4 +1,4 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.helper
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper

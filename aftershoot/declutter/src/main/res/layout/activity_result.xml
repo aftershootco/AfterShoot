@@ -1,4 +1,4 @@
-<com.aftershoot.declutter.CustomViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<com.aftershoot.declutter.ui.CustomViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewPager"
     android:layout_width="match_parent"
@@ -15,4 +15,4 @@
         app:tabSelectedTextColor="@color/colorWhite"
         app:tabTextColor="@color/primaryLightColor" />
 
-</com.aftershoot.declutter.CustomViewPager>
+</com.aftershoot.declutter.ui.CustomViewPager>

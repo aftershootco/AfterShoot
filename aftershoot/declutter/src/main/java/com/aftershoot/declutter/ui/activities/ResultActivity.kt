@@ -1,10 +1,13 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.aftershoot.declutter.R
+import com.aftershoot.declutter.ui.fragments.BadImageFragment
+import com.aftershoot.declutter.ui.fragments.GoodImageFragment
 import kotlinx.android.synthetic.main.activity_result.*
 
 

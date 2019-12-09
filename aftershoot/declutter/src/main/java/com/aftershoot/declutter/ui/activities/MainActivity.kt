@@ -1,4 +1,4 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui.activities
 
 import android.Manifest
 import android.app.Activity
@@ -6,10 +6,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -38,11 +38,6 @@ class MainActivity : AppCompatActivity() {
             showSliderAndLogin()
         } else {
             queryStorage()
-            btnDone.setOnClickListener {
-                val intent = Intent(this, ProgressActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
         }
     }
 
@@ -62,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this, "Something went wrong, please restart the app!", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -73,7 +69,6 @@ class MainActivity : AppCompatActivity() {
                 null,
                 null
         )
-//        progressBar.visibility = View.VISIBLE
         tvProgress.text = getString(R.string.loading_local_images)
         query.use { cursor ->
 
@@ -86,9 +81,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        progressBar.visibility = View.INVISIBLE
-        tvProgress.text = "${imageList.size} images found"
-        btnDone.visibility = View.VISIBLE
+        val intent = Intent(this, ProgressActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

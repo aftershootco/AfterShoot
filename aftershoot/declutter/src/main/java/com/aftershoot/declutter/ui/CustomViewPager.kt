@@ -1,4 +1,4 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.util.AttributeSet

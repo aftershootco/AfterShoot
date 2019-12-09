@@ -1,4 +1,4 @@
-package com.aftershoot.declutter
+package com.aftershoot.declutter.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.aftershoot.declutter.MainActivity.Companion.imageList
+import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
+import com.aftershoot.declutter.R
+import com.aftershoot.declutter.ui.ResultImageAdapter
+import com.aftershoot.declutter.helper.SimpleTouchHelperCallback
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result_good.*
 

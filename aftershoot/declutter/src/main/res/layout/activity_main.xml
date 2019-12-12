@@ -29,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/primaryColor"
         android:text="Next"
-        android:textColor="#ffffff"
+        android:textColor="@color/textColorLight"
         android:visibility="invisible" />
 
 </RelativeLayout>

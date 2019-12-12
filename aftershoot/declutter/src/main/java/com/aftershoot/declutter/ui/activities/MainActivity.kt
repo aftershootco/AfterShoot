@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
@@ -16,6 +17,20 @@ import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
+
+    enum class DarkModeConfig {
+        YES,
+        NO,
+        FOLLOW_SYSTEM
+    }
+
+    private fun shouldEnableDarkMode(darkModeConfig: DarkModeConfig) {
+        when (darkModeConfig) {
+            DarkModeConfig.YES -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            DarkModeConfig.NO -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            DarkModeConfig.FOLLOW_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
 
     //Execute order 66
     val RQ_CODE_INTRO = 66
@@ -32,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Handle the dark theme toggle based on user action
+//        shouldEnableDarkMode(DarkModeConfig.YES)
         setContentView(R.layout.activity_main)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {

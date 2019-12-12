@@ -7,6 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import kotlinx.android.synthetic.main.activity_progress.*
 
 class ProgressActivity : AppCompatActivity() {
@@ -15,6 +17,17 @@ class ProgressActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_progress)
         LoaderTask().execute(imageList.size)
+    }
+
+    fun setupAnimation(){
+        val animation = findViewById<LottieAnimationView>(R.id.progressBar)
+        animation.speed = 2.0F // How fast does the animation play
+        animation.progress = 50F // Starts the animation from 50% of the beginning
+        animation.addAnimatorUpdateListener {
+            // Called everytime the frame of the animation changes
+        }
+        animation.repeatMode = LottieDrawable.RESTART // Restarts the animation (you can choose to reverse it as well)
+        animation.cancelAnimation() // Cancels the animation
     }
 
     inner class LoaderTask : AsyncTask<Int, Int, Unit>() {

@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:tabBackground="@color/primaryColor"
-        app:tabIconTint="@color/colorWhite"
+        app:tabIconTint="@color/textColorLight"
         app:tabIndicatorHeight="4dp"
         app:tabRippleColor="@color/primaryLightColor"
-        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabSelectedTextColor="@color/textColorLight"
         app:tabTextColor="@color/primaryLightColor" />
 
 </com.aftershoot.declutter.ui.CustomViewPager>

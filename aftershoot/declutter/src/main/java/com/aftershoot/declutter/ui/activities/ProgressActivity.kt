@@ -21,33 +21,26 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
+import kotlin.math.abs
 
 
 class ProgressActivity : AppCompatActivity() {
 
-    val interpreter by lazy {
-        Interpreter(loadModelFile())
-    }
+    // Our model expects a RGB image, hence the channel size is 3
+    private val channelSize = 3
 
-    val CHANNEL_SIZE = 3
+    // Width of the image that our model expects
+    var inputImageWidth = 224
+    // Height of the image that our model expects
+    var inputImageHeight = 224
+    // Size of the input buffer size (if your model expects a float input, multiply this with 4)
+    private var modelInputSize = inputImageWidth * inputImageHeight * channelSize
 
-    lateinit var inputShape: IntArray
-
-    var inputImageWidth = 0
-    var inputImageHeight = 0
-    var modelInputSize = 0
-
+    // Output you get from your model, this is essentially as we saw in netron
     val resultArray = Array(1) { ByteArray(3) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_progress)
-        inputShape = interpreter.getInputTensor(0).shape()
-        inputImageWidth = inputShape[1]
-        inputImageHeight = inputShape[2]
-        modelInputSize = inputImageWidth * inputImageHeight * CHANNEL_SIZE
-
-        LoaderTask().execute(imageList)
+    val interpreter by lazy {
+        Interpreter(loadModelFile())
     }
 
     private fun loadModelFile(): MappedByteBuffer {
@@ -57,17 +50,6 @@ class ProgressActivity : AppCompatActivity() {
         val startOffset: Long = fileDescriptor.startOffset
         val declaredLength: Long = fileDescriptor.declaredLength
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-    }
-
-    fun setupAnimation() {
-        val animation = findViewById<LottieAnimationView>(R.id.progressBar)
-        animation.speed = 2.0F // How fast does the animation play
-        animation.progress = 50F // Starts the animation from 50% of the beginning
-        animation.addAnimatorUpdateListener {
-            // Called everytime the frame of the animation changes
-        }
-        animation.repeatMode = LottieDrawable.RESTART // Restarts the animation (you can choose to reverse it as well)
-        animation.cancelAnimation() // Cancels the animation
     }
 
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
@@ -90,47 +72,68 @@ class ProgressActivity : AppCompatActivity() {
         return byteBuffer
     }
 
-    inner class LoaderTask : AsyncTask<List<Image>, Int, Unit>() {
+    companion object {
+        // Replace the deprecated AsyncTask here R.I.P. :'(
+        class LoaderTask(private val progressActivity: ProgressActivity) : AsyncTask<List<Image>, Int, Unit>() {
 
-        override fun onPreExecute() {
-            super.onPreExecute()
-            progressBar.visibility = View.VISIBLE
-        }
-
-        override fun doInBackground(vararg images: List<Image>) {
-
-            images[0].forEachIndexed { index, image ->
-
-                // Need a better way to reuse and recycle bitmaps here
-                val bitmap = BitmapFactory.decodeFile(image.file.path)
-                val resizedImage =
-                        Bitmap.createScaledBitmap(bitmap, inputImageWidth, inputImageHeight, true)
-
-                val input = convertBitmapToByteBuffer(resizedImage)
-
-                interpreter.run(input, resultArray)
-
-                Log.e("TAG", "Probabilities are ${resultArray[0][0]}, ${resultArray[0][1]} and ${resultArray[0][2]}")
-                publishProgress(index)
+            override fun onPreExecute() {
+                super.onPreExecute()
+                progressActivity.progressBar.visibility = View.VISIBLE
             }
 
-        }
+            override fun doInBackground(vararg images: List<Image>) {
+                val imageList = images[0]
 
-        override fun onProgressUpdate(vararg values: Int?) {
-            super.onProgressUpdate(*values)
-            tvStatus.text = "Processing : ${values[0]} out of ${imageList.size}"
-        }
+                imageList.forEachIndexed { index, image ->
+                    // Read the bitmap from a local file
+                    val bitmap = BitmapFactory.decodeFile(image.file.path)
+                    // Resize the bitmap so that it's 224x224
+                    val resizedImage =
+                            Bitmap.createScaledBitmap(bitmap, progressActivity.inputImageWidth, progressActivity.inputImageHeight, true)
 
-        override fun onPostExecute(result: Unit?) {
-            super.onPostExecute(result)
-            startResultActivity()
-            finish()
+                    // Convert the bitmap to a ByteBuffer
+                    val modelInput = progressActivity.convertBitmapToByteBuffer(resizedImage)
+
+                    progressActivity.interpreter.run(modelInput, progressActivity.resultArray)
+
+                    Log.e("TAG", "Probabilities are ${abs(progressActivity.resultArray[0][0].toInt())}, ${progressActivity.resultArray[0][1]} and ${progressActivity.resultArray[0][2]}")
+                    publishProgress(index)
+                }
+            }
+
+            override fun onProgressUpdate(vararg values: Int?) {
+                super.onProgressUpdate(*values)
+                progressActivity.tvStatus.text = "Processing : ${values[0]} out of ${imageList.size}"
+            }
+
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+                progressActivity.startResultActivity()
+                progressActivity.finish()
+            }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_progress)
+        LoaderTask(this).execute(imageList)
     }
 
     private fun startResultActivity() {
         val intent = Intent(this, ResultActivity::class.java)
         startActivity(intent)
+    }
+
+    fun setupAnimation() {
+        val animation = findViewById<LottieAnimationView>(R.id.progressBar)
+        animation.speed = 2.0F // How fast does the animation play
+        animation.progress = 50F // Starts the animation from 50% of the beginning
+        animation.addAnimatorUpdateListener {
+            // Called everytime the frame of the animation changes
+        }
+        animation.repeatMode = LottieDrawable.RESTART // Restarts the animation (you can choose to reverse it as well)
+        animation.cancelAnimation() // Cancels the animation
     }
 
 }

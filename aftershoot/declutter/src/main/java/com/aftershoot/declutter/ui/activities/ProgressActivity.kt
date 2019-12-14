@@ -95,9 +95,12 @@ class ProgressActivity : AppCompatActivity() {
                     val modelInput = progressActivity.convertBitmapToByteBuffer(resizedImage)
 
                     progressActivity.interpreter.run(modelInput, progressActivity.resultArray)
-
-                    Log.e("TAG", "Probabilities are ${abs(progressActivity.resultArray[0][0].toInt())}, ${progressActivity.resultArray[0][1]} and ${progressActivity.resultArray[0][2]}")
-                    publishProgress(index)
+                    // A number between 0-255 that tells the ratio that the images is overexposed
+                    Log.d("TAG", "Overexposed : ${abs(progressActivity.resultArray[0][0].toInt())}")
+                    // A number between 0-255 that tells the ratio that the images is good
+                    Log.d("TAG", "Good : ${abs(progressActivity.resultArray[0][1].toInt())}")
+                    // A number between 0-255 that tells the ratio that the images is underexposed
+                    Log.d("TAG", "Underexposed : ${abs(progressActivity.resultArray[0][2].toInt())}")
                 }
             }
 

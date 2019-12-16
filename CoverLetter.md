@@ -1,3 +1,5 @@
+Note : Look at [CoverLetter.docx](CoverLetter.docx) for the doc version of the letter.
+
 ## Tell us what your idea is
 
 With phones constantly pushing the limits of the imaging capabilities of mobile cameras, recent years have seen a significant push towards mobile photography. As per [statista](https://www.statista.com/chart/10913/number-of-photos-taken-worldwide/), more than **1.2 trillion digital images** were captured in 2018, out of which, **over 85% were taken on a smartphone**. And while services like Google Photos can help people solve the storage problem, there is room for improvement when it comes to managing the clutter in each and every phone's gallery.
@@ -32,7 +34,8 @@ Complete working on the models that identify potentially bad pictures :
   - [x] Blurry/Out of Focus - **Done** 
   - [x] Blinks - **Done**
   - [x] Over/Underexposed - **Done**
-  - [ ] Best image from Duplicates, Sad Faces in an image, Cropped human faces, Foreign Objects in the picture - **Work in Progress**
+  - [x] Filter Duplicates - **Done**
+  - [ ] Sad Faces in an image, Cropped human faces, Foreign Objects in the image, Aesthetically pleasing images - **Work in Progress**
 - **January - February 2019:**   
 Work on a model that will take the flaw in the image (determined from the models above) and apply or suggest a fix that can be made to improve that image.  
 Work on the camera and DeClutter module that will scan user's gallery for bad images.

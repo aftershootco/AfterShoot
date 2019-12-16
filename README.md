@@ -4,6 +4,8 @@
 Your personal photographer is just a click away.  
 AfterShoot is an AI powered camera that helps you take better pictures and manages your digital waste.  
 
+The App comes in two parts : 
+
 ## DeClutter
 This is an extension to the AfterShoot camera app, that will query the internal storage for all the images and filter the bad pictures from the bunch.
 
@@ -33,4 +35,4 @@ It can also analyze the picture once it's taken for potential flaws.
 
 The camera module is based on the Open Source Camera Client called [Simple Camera](https://github.com/SimpleMobileTools/Simple-Camera)
 
-See [CoverLetter.md](CoverLetter.md) for more info, #AndroidDevChallenge
+See [CoverLetter.md](CoverLetter.md) or [CoverLetter.docx](CoverLetter.docx) for more info, #AndroidDevChallenge

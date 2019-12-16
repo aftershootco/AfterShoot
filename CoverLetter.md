@@ -1,3 +1,5 @@
+Note : Look at [CoverLetter.docx](CoverLetter.docx) for the doc version of the letter.
+
 ## Tell us what your idea is
 
 With phones constantly pushing the limits of the imaging capabilities of mobile cameras, recent years have seen a significant push towards mobile photography. As per [statista](https://www.statista.com/chart/10913/number-of-photos-taken-worldwide/), more than **1.2 trillion digital images** were captured in 2018, out of which, **over 85% were taken on a smartphone**. And while services like Google Photos can help people solve the storage problem, there is room for improvement when it comes to managing the clutter in each and every phone's gallery.

@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.util.Pair
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.extensions.isShowingOTGDialog
 import com.aftershoot.camera.extensions.isShowingSAFDialog
 import com.aftershoot.camera.helpers.CopyMoveTask

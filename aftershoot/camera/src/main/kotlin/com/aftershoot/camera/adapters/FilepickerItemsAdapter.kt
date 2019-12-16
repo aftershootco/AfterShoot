@@ -4,11 +4,11 @@ import android.content.pm.PackageManager
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import com.aftershoot.camera.R
+import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.simplemobiletools.camera.R
-import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.formatSize
 import com.simplemobiletools.commons.extensions.getColoredDrawableWithColor
 import com.simplemobiletools.commons.extensions.isGif

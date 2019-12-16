@@ -2,7 +2,7 @@ package com.aftershoot.camera.models
 
 import android.content.Context
 import android.util.Size
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 
 data class MySize(val width: Int, val height: Int) {
     val ratio = width / height.toFloat()

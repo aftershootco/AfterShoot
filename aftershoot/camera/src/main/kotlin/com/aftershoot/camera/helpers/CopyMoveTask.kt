@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import androidx.core.app.NotificationCompat
 import androidx.core.util.Pair
 import androidx.documentfile.provider.DocumentFile
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.aftershoot.camera.extensions.*
 import com.simplemobiletools.commons.extensions.*

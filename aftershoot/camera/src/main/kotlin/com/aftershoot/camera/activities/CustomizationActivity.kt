@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.dialogs.LineColorPickerDialog
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*

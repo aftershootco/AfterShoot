@@ -1,10 +1,10 @@
 package com.aftershoot.camera.activities
 
 import android.os.Bundle
-import com.simplemobiletools.camera.BuildConfig
-import com.simplemobiletools.camera.R
-import com.aftershoot.camera.extensions.config
+import com.aftershoot.camera.BuildConfig
+import com.aftershoot.camera.R
 import com.aftershoot.camera.dialogs.FilePickerDialog
+import com.aftershoot.camera.extensions.config
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.LICENSE_GLIDE

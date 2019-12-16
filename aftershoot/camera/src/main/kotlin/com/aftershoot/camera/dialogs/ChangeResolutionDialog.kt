@@ -3,7 +3,7 @@ package com.aftershoot.camera.dialogs
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.SimpleActivity
 import com.aftershoot.camera.extensions.config
 import com.aftershoot.camera.models.MySize

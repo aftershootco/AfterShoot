@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_radio_group.view.*

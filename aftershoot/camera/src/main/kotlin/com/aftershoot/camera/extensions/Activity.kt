@@ -16,7 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*

@@ -1,7 +1,6 @@
 package com.aftershoot.camera.activities
 
-import com.aftershoot.camera.activities.BaseSimpleActivity
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 
 open class SimpleActivity : BaseSimpleActivity() {
     override fun getAppIconIDs() = arrayListOf(

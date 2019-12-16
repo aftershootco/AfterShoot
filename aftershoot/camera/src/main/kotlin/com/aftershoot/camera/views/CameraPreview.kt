@@ -24,14 +24,13 @@ import android.view.Surface
 import android.view.TextureView
 import android.view.ViewGroup
 import android.widget.Toast
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.MainActivity
 import com.aftershoot.camera.dialogs.ChangeResolutionDialog
 import com.aftershoot.camera.extensions.config
 import com.aftershoot.camera.extensions.deleteFile
 import com.aftershoot.camera.extensions.getOutputMediaFile
 import com.aftershoot.camera.helpers.*
-import com.simplemobiletools.camera.helpers.*
 import com.aftershoot.camera.implementations.MyCameraImpl
 import com.aftershoot.camera.interfaces.MyPreview
 import com.aftershoot.camera.models.FocusArea

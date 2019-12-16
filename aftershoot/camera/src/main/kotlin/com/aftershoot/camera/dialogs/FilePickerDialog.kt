@@ -6,7 +6,7 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.aftershoot.camera.adapters.FilepickerItemsAdapter
 import com.simplemobiletools.commons.extensions.*

@@ -9,7 +9,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Environment
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.MainActivity
 import com.aftershoot.camera.extensions.config
 import com.aftershoot.camera.extensions.getOutputMediaFile

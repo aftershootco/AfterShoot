@@ -2,7 +2,7 @@ package com.aftershoot.camera.dialogs
 
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.simplemobiletools.camera.R
+import com.aftershoot.camera.R
 import com.aftershoot.camera.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import kotlinx.android.synthetic.main.dialog_create_new_folder.view.*

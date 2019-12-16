@@ -2,7 +2,7 @@
 
 # AfterShoot
 Your personal photographer is just a click away.  
-AfterShoot is an AI powered camera that helps you take better pictures and manages your digital waste.  
+AfterShoot is an AI powered camera that helps you take better pictures and manage your digital waste.  
 
 The App comes in two parts : 
 

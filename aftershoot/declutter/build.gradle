@@ -14,16 +14,19 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+//    buildFeatures {
+//        compose true
+//    }
+//    compileOptions {
+//        sourceCompatibility kotlin_version
+//        targetCompatibility kotlin_version
+//    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
     buildTypes {
         release {
             minifyEnabled false
@@ -48,16 +51,16 @@ dependencies {
     implementation 'com.github.piasy:BigImageViewer:1.6.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.airbnb.android:lottie:3.1.0'
+    implementation 'com.airbnb.android:lottie:3.3.1'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     //tensorflow
     implementation 'org.tensorflow:tensorflow-lite:+'
-    //jetpack compose
-    implementation 'androidx.ui:ui-tooling:0.1.0-dev02'
-    implementation 'androidx.ui:ui-layout:0.1.0-dev02'
-    implementation 'androidx.ui:ui-material:0.1.0-dev02'
+//    //jetpack compose
+//    implementation 'androidx.ui:ui-tooling:0.1.0-dev03'
+//    implementation 'androidx.ui:ui-layout:0.1.0-dev03'
+//    implementation 'androidx.ui:ui-material:0.1.0-dev03'
     //test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

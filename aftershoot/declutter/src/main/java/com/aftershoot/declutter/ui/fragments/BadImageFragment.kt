@@ -2,6 +2,7 @@ package com.aftershoot.declutter.ui.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class BadImageFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        Log.e("TAG", "BadImg Fragment ${imageList.size}")
         return inflater.inflate(R.layout.fragment_result_bad, container, false)
     }
 

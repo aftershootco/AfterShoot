@@ -84,24 +84,26 @@ class ProgressActivity : AppCompatActivity() {
             override fun doInBackground(vararg images: List<Image>) {
                 val imageList = images[0]
 
-                imageList.forEachIndexed { index, image ->
-                    // Read the bitmap from a local file
-                    val bitmap = BitmapFactory.decodeFile(image.file.path)
-                    // Resize the bitmap so that it's 224x224
-                    val resizedImage =
-                            Bitmap.createScaledBitmap(bitmap, progressActivity.inputImageWidth, progressActivity.inputImageHeight, true)
-
-                    // Convert the bitmap to a ByteBuffer
-                    val modelInput = progressActivity.convertBitmapToByteBuffer(resizedImage)
-
-                    progressActivity.interpreter.run(modelInput, progressActivity.resultArray)
-                    // A number between 0-255 that tells the ratio that the images is overexposed
-                    Log.d("TAG", "Overexposed : ${abs(progressActivity.resultArray[0][0].toInt())}")
-                    // A number between 0-255 that tells the ratio that the images is good
-                    Log.d("TAG", "Good : ${abs(progressActivity.resultArray[0][1].toInt())}")
-                    // A number between 0-255 that tells the ratio that the images is underexposed
-                    Log.d("TAG", "Underexposed : ${abs(progressActivity.resultArray[0][2].toInt())}")
-                }
+//                imageList.forEachIndexed { index, image ->
+//                    // Read the bitmap from a local file
+//                    val bitmap = BitmapFactory.decodeFile(image.file.path)
+//                    // Resize the bitmap so that it's 224x224
+//                    val resizedImage =
+//                            Bitmap.createScaledBitmap(bitmap, progressActivity.inputImageWidth, progressActivity.inputImageHeight, true)
+//
+//                    // Convert the bitmap to a ByteBuffer
+//                    val modelInput = progressActivity.convertBitmapToByteBuffer(resizedImage)
+//
+//                    progressActivity.interpreter.run(modelInput, progressActivity.resultArray)
+//                    // A number between 0-255 that tells the ratio that the images is overexposed
+//                    Log.d("TAG", "Overexposed : ${abs(progressActivity.resultArray[0][0].toInt())}")
+//                    // A number between 0-255 that tells the ratio that the images is good
+//                    Log.d("TAG", "Good : ${abs(progressActivity.resultArray[0][1].toInt())}")
+//                    // A number between 0-255 that tells the ratio that the images is underexposed
+//                    Log.d("TAG", "Underexposed : ${abs(progressActivity.resultArray[0][2].toInt())}")
+//
+//                    publishProgress(index)
+//                }
             }
 
             override fun onProgressUpdate(vararg values: Int?) {
@@ -127,16 +129,4 @@ class ProgressActivity : AppCompatActivity() {
         val intent = Intent(this, ResultActivity::class.java)
         startActivity(intent)
     }
-
-    fun setupAnimation() {
-        val animation = findViewById<LottieAnimationView>(R.id.progressBar)
-        animation.speed = 2.0F // How fast does the animation play
-        animation.progress = 50F // Starts the animation from 50% of the beginning
-        animation.addAnimatorUpdateListener {
-            // Called everytime the frame of the animation changes
-        }
-        animation.repeatMode = LottieDrawable.RESTART // Restarts the animation (you can choose to reverse it as well)
-        animation.cancelAnimation() // Cancels the animation
-    }
-
 }

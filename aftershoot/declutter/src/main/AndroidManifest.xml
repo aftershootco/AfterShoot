@@ -27,7 +27,9 @@
             android:name="com.aftershoot.declutter.ui.activities.IntroActivity"
             android:theme="@style/AppThemeNoActionbar" />
         <activity android:name="com.aftershoot.declutter.ui.activities.ProgressActivity" />
-        <activity android:name="com.aftershoot.declutter.ui.activities.ResultActivity" />
+        <activity
+            android:name="com.aftershoot.declutter.ui.activities.ResultActivity"
+            android:label="@string/bad_images" />
     </application>
 
 </manifest>

@@ -69,7 +69,6 @@ class IntroActivity : AppIntro() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == RQ_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             val returnIntent = Intent()
-            returnIntent.putExtra("result", true)
             setResult(Activity.RESULT_OK, returnIntent)
             finish()
         } else {

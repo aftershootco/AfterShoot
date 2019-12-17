@@ -97,7 +97,7 @@ class ResultImageAdapter(private var images: ArrayList<Image>) :
 
     private fun showPopup(file: File) {
         Glide.with(context)
-                .load(file)
+                .load(Uri.fromFile(file))
                 .into(dialogView.ivPopup)
 //        dialogView.ivPopup.setImageURI(uri)
         alertDialog.show()

@@ -67,11 +67,6 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RQ_CODE_INTRO && resultCode == Activity.RESULT_OK) {
             queryStorage()
-            btnDone.setOnClickListener {
-                val intent = Intent(this, ProgressActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
         } else {
             Toast.makeText(this, "Something went wrong, please restart the app!", Toast.LENGTH_SHORT).show()
             finish()

@@ -30,7 +30,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Processing : 1 out of 25"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textSize="32sp"
         android:textStyle="bold" />

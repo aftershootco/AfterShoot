@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DeClutter by AfterShoot</string>
     <string name="loading_local_images">Please wait, loading your local images ...</string>
+    <string name="bad_images">Bad Images</string>
 </resources>

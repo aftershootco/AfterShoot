@@ -62,30 +62,6 @@ class ResultImageAdapter(private var images: ArrayList<Image>) :
                 .into(holder.itemView.ivGrid)
     }
 
-    fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
-        var cursor: Cursor
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)!!
-        val columnIndex: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        cursor.moveToFirst()
-        val path = cursor.getString(columnIndex)
-        cursor.close()
-        return path
-    }
-
-    private fun getBitmapFromUri(uri: Uri): Bitmap? {
-        try {
-            val parcelFileDescriptor: ParcelFileDescriptor = applicationContext.contentResolver.openFileDescriptor(uri, "r")!!
-            val fileDescriptor: FileDescriptor = parcelFileDescriptor.getFileDescriptor()
-            val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-            parcelFileDescriptor.close()
-            return image
-        } catch (fnfe: FileNotFoundException) {
-            fnfe.printStackTrace()
-            return null
-        }
-    }
-
     inner class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.ivGrid.setOnClickListener {

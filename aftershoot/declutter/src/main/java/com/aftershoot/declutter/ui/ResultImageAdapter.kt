@@ -41,7 +41,6 @@ class ResultImageAdapter(private var images: ArrayList<Image>) :
         AlertDialog.Builder(context)
                 .setView(dialogView)
                 .setOnCancelListener {
-
                     it.dismiss()
                 }
                 .create()
@@ -96,10 +95,10 @@ class ResultImageAdapter(private var images: ArrayList<Image>) :
     }
 
     private fun showPopup(file: File) {
-        Glide.with(context)
-                .load(Uri.fromFile(file))
-                .into(dialogView.ivPopup)
-//        dialogView.ivPopup.setImageURI(uri)
+//        Glide.with(context)
+//                .load(file)
+//                .into(dialogView.ivPopup)
+        dialogView.ivPopup.setImageURI(Uri.fromFile(file))
         alertDialog.show()
     }
 

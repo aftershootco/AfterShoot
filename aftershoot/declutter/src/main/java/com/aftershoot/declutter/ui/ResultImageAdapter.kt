@@ -1,8 +1,8 @@
 package com.aftershoot.declutter.ui
 
 import android.content.Context
-import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -39,7 +39,9 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
 
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             if (item?.itemId == R.id.action_delete) {
-                // Assuming that the delete button is clicked, finish the multi select process
+                // Assuming that the delete button is clicked, handle deletion and finish the multi select process
+                Log.e("TAG", "${selectedItems.size} items selected")
+                selectedItems.clear()
                 mode?.finish()
             }
             return true
@@ -81,9 +83,27 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         // for every item, check to see if it exists in the selected items array
         if (selectedItems.contains(images[position])) {
-            holder.itemView.setBackgroundColor(Color.LTGRAY)
+            // if the item is selected, let the user know by adding a dark layer above it
+            holder.itemView.ivGrid.alpha = 0.3f
         } else {
-            holder.itemView.setBackgroundColor(Color.WHITE)
+            // else, keep it as it is
+            holder.itemView.ivGrid.alpha = 1.0f
+        }
+
+        holder.itemView.ivGrid.setOnClickListener {
+            if (multiSelect)
+                selectItem(holder, images[holder.adapterPosition])
+            else
+                showPopup(images[holder.adapterPosition].file)
+        }
+
+        // set handler to define what happens when an item is long pressed
+        holder.itemView.ivGrid.setOnLongClickListener {
+            if (!multiSelect) {
+                activity.startSupportActionMode(actionModeCallback)
+                selectItem(holder, images[holder.adapterPosition])
+            }
+            true
         }
 
         Glide.with(context)
@@ -91,36 +111,19 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
                 .into(holder.itemView.ivGrid)
     }
 
-    fun selectItem(holder: ImageHolder, image: Image) {
+    private fun selectItem(holder: ImageHolder, image: Image) {
         if (multiSelect) {
             if (selectedItems.contains(image)) {
                 selectedItems.remove(image)
-                holder.itemView.setBackgroundColor(Color.WHITE)
+                holder.itemView.ivGrid.alpha = 1.0f
             } else {
                 selectedItems.add(image)
-                holder.itemView.setBackgroundColor(Color.LTGRAY)
+                holder.itemView.ivGrid.alpha = 0.3f
             }
         }
     }
 
-    inner class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            itemView.ivGrid.setOnClickListener {
-                showPopup(images[adapterPosition].file)
-            }
-
-            // set handler to define what happens when an item is long pressed
-            itemView.ivGrid.setOnLongClickListener {
-
-                itemView.ivGrid.setOnClickListener {
-                    selectItem(this, images[adapterPosition])
-                }
-                activity.startSupportActionMode(actionModeCallback)
-                selectItem(this, images[adapterPosition])
-                true
-            }
-        }
-    }
+    inner class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private fun showPopup(file: File) {
         dialogView.ivPopup.setImageURI(Uri.fromFile(file))

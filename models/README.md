@@ -7,7 +7,7 @@ Next steps are to train ML models to identify more potential flaws in an image.
 ![](https://i.imgur.com/KBnHicS.png)  
 
 ### Exposure  
-![](https://i.imgur.com/nP400il.png)  
+![](https://i.imgur.com/ARpRUO9.png)  
 
 ### Blinks  
-![](https://i.imgur.com/u9OPDp0.png)
+![](https://i.imgur.com/AfrORCu.png)

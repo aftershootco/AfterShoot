@@ -6,17 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
 import com.aftershoot.declutter.R
-import com.aftershoot.declutter.ui.ResultImageAdapter
+import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
 import com.aftershoot.declutter.helper.SimpleTouchHelperCallback
 import com.aftershoot.declutter.model.Image
+import com.aftershoot.declutter.ui.ResultImageAdapter
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result_bad.*
+
 
 class BadImageFragment : Fragment() {
 
@@ -25,7 +27,7 @@ class BadImageFragment : Fragment() {
     var currentMode = selections[0]
 
     private val itemAdapter by lazy {
-        ResultImageAdapter(imageList)
+        ResultImageAdapter(imageList, requireActivity() as AppCompatActivity)
     }
 
     private val alertFilter: AlertDialog by lazy {
@@ -63,6 +65,7 @@ class BadImageFragment : Fragment() {
         Log.e("TAG", "BadImg Fragment ${imageList.size}")
         return inflater.inflate(R.layout.fragment_result_bad, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

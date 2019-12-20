@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
 import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
-import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
 import kotlinx.android.synthetic.main.activity_progress.*
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
@@ -22,7 +20,6 @@ import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import kotlin.math.abs
-
 
 class ProgressActivity : AppCompatActivity() {
 
@@ -82,28 +79,28 @@ class ProgressActivity : AppCompatActivity() {
             }
 
             override fun doInBackground(vararg images: List<Image>) {
-//                val imageList = images[0]
-//
-//                imageList.forEachIndexed { index, image ->
-//                    // Read the bitmap from a local file
-//                    val bitmap = BitmapFactory.decodeFile(image.file.path)
-//                    // Resize the bitmap so that it's 224x224
-//                    val resizedImage =
-//                            Bitmap.createScaledBitmap(bitmap, progressActivity.inputImageWidth, progressActivity.inputImageHeight, true)
-//
-//                    // Convert the bitmap to a ByteBuffer
-//                    val modelInput = progressActivity.convertBitmapToByteBuffer(resizedImage)
-//
-//                    progressActivity.interpreter.run(modelInput, progressActivity.resultArray)
-//                    // A number between 0-255 that tells the ratio that the images is overexposed
-//                    Log.d("TAG", "Overexposed : ${abs(progressActivity.resultArray[0][0].toInt())}")
-//                    // A number between 0-255 that tells the ratio that the images is good
-//                    Log.d("TAG", "Good : ${abs(progressActivity.resultArray[0][1].toInt())}")
-//                    // A number between 0-255 that tells the ratio that the images is underexposed
-//                    Log.d("TAG", "Underexposed : ${abs(progressActivity.resultArray[0][2].toInt())}")
-//
-//                    publishProgress(index)
-//                }
+                val imageList = images[0]
+
+                imageList.forEachIndexed { index, image ->
+                    // Read the bitmap from a local file
+                    val bitmap = BitmapFactory.decodeFile(image.file.path)
+                    // Resize the bitmap so that it's 224x224
+                    val resizedImage =
+                            Bitmap.createScaledBitmap(bitmap, progressActivity.inputImageWidth, progressActivity.inputImageHeight, true)
+
+                    // Convert the bitmap to a ByteBuffer
+                    val modelInput = progressActivity.convertBitmapToByteBuffer(resizedImage)
+
+                    progressActivity.interpreter.run(modelInput, progressActivity.resultArray)
+                    // A number between 0-255 that tells the ratio that the images is overexposed
+                    Log.d("TAG", "Overexposed : ${abs(progressActivity.resultArray[0][0].toInt())}")
+                    // A number between 0-255 that tells the ratio that the images is good
+                    Log.d("TAG", "Good : ${abs(progressActivity.resultArray[0][1].toInt())}")
+                    // A number between 0-255 that tells the ratio that the images is underexposed
+                    Log.d("TAG", "Underexposed : ${abs(progressActivity.resultArray[0][2].toInt())}")
+
+                    publishProgress(index)
+                }
             }
 
             override fun onProgressUpdate(vararg values: Int?) {
@@ -122,7 +119,10 @@ class ProgressActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_progress)
-        LoaderTask(this).execute(imageList)
+        // uncomment this line to run the model inference on the images
+//        LoaderTask(this).execute(imageList)
+        startResultActivity()
+        finish()
     }
 
     private fun startResultActivity() {

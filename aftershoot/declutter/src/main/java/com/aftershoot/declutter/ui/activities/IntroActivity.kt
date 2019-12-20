@@ -14,7 +14,6 @@ import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import com.github.paolorotolo.appintro.model.SliderPage
 
-
 class IntroActivity : AppIntro() {
 
     val RQ_PERMISSION = 12345
@@ -26,8 +25,6 @@ class IntroActivity : AppIntro() {
             title = "DeClutter"
             description = "An app to help manage your storage"
             imageDrawable = R.drawable.logo_horiz
-//            titleColor = ContextCompat.getColor(baseContext, R.color.primaryTextColor)
-//            descColor = ContextCompat.getColor(baseContext, R.color.primaryTextLightColor)
             bgColor = ContextCompat.getColor(baseContext, R.color.primaryColor)
 
         }
@@ -38,11 +35,8 @@ class IntroActivity : AppIntro() {
             title = "DeClutter"
             description = "In order for the app to work, please accept the storage permissions next!"
             imageDrawable = R.drawable.logo_horiz
-//            titleColor = ContextCompat.getColor(baseContext, R.color.primaryTextColor)
-//            descColor = ContextCompat.getColor(baseContext, R.color.primaryTextLightColor)
             bgColor = ContextCompat.getColor(baseContext, R.color.primaryColor)
         }
-
 
 
         addSlide(AppIntroFragment.newInstance(sliderTwo))

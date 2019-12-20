@@ -2,8 +2,8 @@ package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.android.synthetic.main.layout_image_popup_alert.view.*
 import java.io.File
-
 
 class ResultImageAdapter(private var images: ArrayList<Image>, val activity: AppCompatActivity) :
         RecyclerView.Adapter<ResultImageAdapter.ImageHolder>() {
@@ -38,11 +37,25 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
         }
 
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+
+            val deleteAlert = AlertDialog.Builder(context)
+                    .setTitle("Delete ${selectedItems.size} images?")
+                    .setMessage("This action can't be undone!")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes") { dialog, _ ->
+                        // TODO : Add deletion here
+                        Toast.makeText(context, "${selectedItems.size} images deleted", Toast.LENGTH_SHORT).show()
+                        selectedItems.clear()
+                        dialog.dismiss()
+                        mode?.finish()
+                    }
+                    .setNegativeButton("No") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+
             if (item?.itemId == R.id.action_delete) {
                 // Assuming that the delete button is clicked, handle deletion and finish the multi select process
-                Log.e("TAG", "${selectedItems.size} items selected")
-                selectedItems.clear()
-                mode?.finish()
+                deleteAlert.show()
             }
             return true
         }

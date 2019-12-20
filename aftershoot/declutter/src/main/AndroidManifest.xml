@@ -29,6 +29,7 @@
         <activity android:name="com.aftershoot.declutter.ui.activities.ProgressActivity" />
         <activity
             android:name="com.aftershoot.declutter.ui.activities.ResultActivity"
+
             android:label="@string/bad_images" />
     </application>
 

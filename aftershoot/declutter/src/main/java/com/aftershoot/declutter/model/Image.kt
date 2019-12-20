@@ -2,4 +2,4 @@ package com.aftershoot.declutter.model
 
 import java.io.File
 
-data class Image(val file: File, var isSelected: Boolean = false)
+data class Image(val file: File)

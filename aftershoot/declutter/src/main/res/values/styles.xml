@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="popupMenuStyle">@style/PopupMenu</item>
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryLightColor</item>
@@ -16,6 +17,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+    <!--    Popup theme for the contextual menu-->
+    <style name="PopupMenu" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:popupBackground">@color/primaryDarkColor</item>
     </style>
 
 </resources>

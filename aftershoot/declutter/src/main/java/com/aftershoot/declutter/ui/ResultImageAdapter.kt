@@ -26,8 +26,6 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
     // Outline what happens when the selection is started
     private val actionModeCallback: ActionMode.Callback = object : ActionMode.Callback {
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-            // We have started multi selection, so set the flag to true
-            multiSelect = true
             // Inflate a menu resource providing context menu items
             val inflater: MenuInflater = mode.menuInflater
             inflater.inflate(R.menu.menu_result, menu)
@@ -114,10 +112,13 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
         // set handler to define what happens when an item is long pressed
         holder.itemView.ivGrid.setOnLongClickListener {
             if (!multiSelect) {
+                // We have started multi selection, so set the flag to true
+                multiSelect = true
                 activity.startSupportActionMode(actionModeCallback)
                 selectItem(holder, images[holder.adapterPosition])
-            }
-            true
+                true
+            } else
+                false
         }
 
         Glide.with(context)
@@ -126,14 +127,12 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
     }
 
     private fun selectItem(holder: ImageHolder, image: Image) {
-        if (multiSelect) {
-            if (selectedItems.contains(image)) {
-                selectedItems.remove(image)
-                holder.itemView.ivGrid.alpha = 1.0f
-            } else {
-                selectedItems.add(image)
-                holder.itemView.ivGrid.alpha = 0.3f
-            }
+        if (selectedItems.contains(image)) {
+            selectedItems.remove(image)
+            holder.itemView.ivGrid.alpha = 1.0f
+        } else {
+            selectedItems.add(image)
+            holder.itemView.ivGrid.alpha = 0.3f
         }
     }
 
@@ -154,4 +153,5 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
         multiSelect = false
         notifyDataSetChanged()
     }
+
 }

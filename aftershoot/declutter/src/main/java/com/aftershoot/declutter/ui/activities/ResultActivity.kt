@@ -7,9 +7,19 @@ import com.aftershoot.declutter.ui.fragments.BadImageFragment
 
 class ResultActivity : AppCompatActivity() {
 
+    val badImageFragment by lazy {
+        BadImageFragment()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
-        supportFragmentManager.beginTransaction().add(R.id.container, BadImageFragment()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.container, badImageFragment).commit()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        badImageFragment.notifyBackPressed()
+    }
+
 }

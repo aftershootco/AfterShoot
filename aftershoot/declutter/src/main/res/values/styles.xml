@@ -19,8 +19,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
     <!--    Popup theme for the contextual menu-->
-    <style name="PopupMenu" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:popupBackground">@color/primaryDarkColor</item>
+    <style name="PopupMenu" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/primaryDarkColor</item>
     </style>
 
 </resources>

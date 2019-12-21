@@ -66,7 +66,6 @@ class BadImageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_result_bad, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fabFilter.setOnClickListener {
@@ -88,6 +87,11 @@ class BadImageFragment : Fragment() {
 
     private fun notifyItemRemoval(pos: Int) {
         itemAdapter.notifyItemRemoved(pos)
+    }
+
+    fun notifyBackPressed() {
+        // Clear the selection from the adapter
+        itemAdapter.backPressed()
     }
 
     private val toDoAdapter = object : ItemTouchHelperAdapter {

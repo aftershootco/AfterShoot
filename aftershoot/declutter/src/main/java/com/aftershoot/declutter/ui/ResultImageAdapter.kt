@@ -15,11 +15,13 @@ import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.android.synthetic.main.layout_image_popup_alert.view.*
 import java.io.File
 
-class ResultImageAdapter(private var images: ArrayList<Image>, val activity: AppCompatActivity) :
+class ResultImageAdapter(private var images: ArrayList<Image>, private val activity: AppCompatActivity) :
         RecyclerView.Adapter<ResultImageAdapter.ImageHolder>() {
 
-    private val selectedItems = arrayListOf<Image>()
+    // true if the user in selection mode, false otherwise
     private var multiSelect = false
+    // Keeps track of all the selected images
+    private val selectedItems = arrayListOf<Image>()
 
     // Outline what happens when the selection is started
     private val actionModeCallback: ActionMode.Callback = object : ActionMode.Callback {
@@ -45,12 +47,10 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
                     .setPositiveButton("Yes") { dialog, _ ->
                         // TODO : Add deletion here
                         Toast.makeText(context, "${selectedItems.size} images deleted", Toast.LENGTH_SHORT).show()
-                        selectedItems.clear()
-                        dialog.dismiss()
                         mode?.finish()
                     }
                     .setNegativeButton("No") { dialog, _ ->
-                        dialog.dismiss()
+                        mode?.finish()
                     }
 
             if (item?.itemId == R.id.action_delete) {
@@ -63,6 +63,7 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
         override fun onDestroyActionMode(mode: ActionMode?) {
             // finished multi selection
             multiSelect = false
+            selectedItems.clear()
             notifyDataSetChanged()
         }
     }
@@ -145,6 +146,12 @@ class ResultImageAdapter(private var images: ArrayList<Image>, val activity: App
 
     fun updateData(newPics: ArrayList<Image>) {
         images = newPics
+        notifyDataSetChanged()
+    }
+
+    fun backPressed() {
+        selectedItems.clear()
+        multiSelect = false
         notifyDataSetChanged()
     }
 }

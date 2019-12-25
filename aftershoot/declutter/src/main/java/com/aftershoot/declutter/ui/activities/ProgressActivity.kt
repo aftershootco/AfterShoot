@@ -29,16 +29,16 @@ class ProgressActivity : AppCompatActivity() {
     private val channelSize = 3
 
     // Width of the image that our model expects
-    var inputImageWidth = 224
+    private var inputImageWidth = 224
     // Height of the image that our model expects
-    var inputImageHeight = 224
+    private var inputImageHeight = 224
     // Size of the input buffer size (if your model expects a float input, multiply this with 4)
     private var modelInputSize = inputImageWidth * inputImageHeight * channelSize
 
     // Output you get from your model, this is essentially as we saw in netron
-    val resultArray = Array(1) { ByteArray(3) }
+    private val resultArray = Array(1) { ByteArray(3) }
 
-    val interpreter by lazy {
+    private val interpreter by lazy {
         Interpreter(loadModelFile())
     }
 

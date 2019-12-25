@@ -17,4 +17,4 @@ TfLite model that can detect when the subject can blinked (this is different fro
 
 ### Cropped faces
 TfLite model that can detect images containing cropped faces
-![](https://i.imgur.com/MYVG47h.png)
+![](https://i.imgur.com/Aw8Lb96.png)

@@ -35,15 +35,25 @@ class ProgressActivity : AppCompatActivity() {
     // Size of the input buffer size (if your model expects a float input, multiply this with 4)
     private var modelInputSize = inputImageWidth * inputImageHeight * channelSize
 
-    // Output you get from your model, this is essentially as we saw in netron
-    private val resultArray = Array(1) { ByteArray(3) }
-
-    private val interpreter by lazy {
-        Interpreter(loadModelFile())
+    private val exposureInterpreter by lazy {
+        Interpreter(loadExposureModelFile())
     }
 
-    private fun loadModelFile(): MappedByteBuffer {
-        val fileDescriptor: AssetFileDescriptor = assets.openFd("model.tflite")
+    private val blurInterpreter by lazy {
+        Interpreter(loadBlurModelFile())
+    }
+
+    private fun loadExposureModelFile(): MappedByteBuffer {
+        val fileDescriptor: AssetFileDescriptor = assets.openFd("exposure.tflite")
+        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+        val fileChannel: FileChannel = inputStream.channel
+        val startOffset: Long = fileDescriptor.startOffset
+        val declaredLength: Long = fileDescriptor.declaredLength
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+    }
+
+    private fun loadBlurModelFile(): MappedByteBuffer {
+        val fileDescriptor: AssetFileDescriptor = assets.openFd("blur.tflite")
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
         val fileChannel: FileChannel = inputStream.channel
         val startOffset: Long = fileDescriptor.startOffset
@@ -82,18 +92,38 @@ class ProgressActivity : AppCompatActivity() {
             // Convert the bitmap to a ByteBuffer
             val modelInput = convertBitmapToByteBuffer(resizedImage)
 
-            interpreter.run(modelInput, resultArray)
-            // A number between 0-255 that tells the ratio that the images is overexposed
-            Log.d("TAG", "Overexposed : ${abs(resultArray[0][0].toInt())}")
-            // A number between 0-255 that tells the ratio that the images is good
-            Log.d("TAG", "Good : ${abs(resultArray[0][1].toInt())}")
-            // A number between 0-255 that tells the ratio that the images is underexposed
-            Log.d("TAG", "Underexposed : ${abs(resultArray[0][2].toInt())}")
+            exposureInference(modelInput)
+            blurInference(modelInput)
 
             withContext(Dispatchers.Main) {
                 tvStatus.text = "Processing : ${index} out of ${imageList.size}"
             }
         }
+    }
+
+    private fun blurInference(buffer: ByteBuffer) {
+        // Output you get from your model, this is essentially as we saw in netron
+        val resultArray = Array(1) { ByteArray(2) }
+
+        blurInterpreter.run(buffer, resultArray)
+        // A number between 0-255 that tells the ratio that the images is blurred
+        Log.d("TAG", "Blinking : ${abs(resultArray[0][0].toInt())}")
+        // A number between 0-255 that tells the ratio that the images is unblurred
+        Log.d("TAG", "Not Blinking : ${abs(resultArray[0][1].toInt())}")
+    }
+
+    private fun exposureInference(buffer: ByteBuffer) {
+
+        // Output you get from your model, this is essentially as we saw in netron
+        val resultArray = Array(1) { ByteArray(3) }
+
+        exposureInterpreter.run(buffer, resultArray)
+        // A number between 0-255 that tells the ratio that the images is overexposed
+        Log.d("TAG", "Overexposed : ${abs(resultArray[0][0].toInt())}")
+        // A number between 0-255 that tells the ratio that the images is good
+        Log.d("TAG", "Good : ${abs(resultArray[0][1].toInt())}")
+        // A number between 0-255 that tells the ratio that the images is underexposed
+        Log.d("TAG", "Underexposed : ${abs(resultArray[0][2].toInt())}")
     }
 
     // any coroutines launched inside this scope will run on the main thread unless stated otherwise

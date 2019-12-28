@@ -9,7 +9,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.blurredImageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.goodImageList
 import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.overExposeImageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.underExposeImageList
 import kotlinx.android.synthetic.main.activity_progress.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,24 +40,15 @@ class ProgressActivity : AppCompatActivity() {
     private var modelInputSize = inputImageWidth * inputImageHeight * channelSize
 
     private val exposureInterpreter by lazy {
-        Interpreter(loadExposureModelFile())
+        Interpreter(loadModelFile("exposure.tflite"))
     }
 
     private val blurInterpreter by lazy {
-        Interpreter(loadBlurModelFile())
+        Interpreter(loadModelFile("blur.tflite"))
     }
 
-    private fun loadExposureModelFile(): MappedByteBuffer {
-        val fileDescriptor: AssetFileDescriptor = assets.openFd("exposure.tflite")
-        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-        val fileChannel: FileChannel = inputStream.channel
-        val startOffset: Long = fileDescriptor.startOffset
-        val declaredLength: Long = fileDescriptor.declaredLength
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-    }
-
-    private fun loadBlurModelFile(): MappedByteBuffer {
-        val fileDescriptor: AssetFileDescriptor = assets.openFd("blur.tflite")
+    private fun loadModelFile(modelName: String): MappedByteBuffer {
+        val fileDescriptor: AssetFileDescriptor = assets.openFd(modelName)
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
         val fileChannel: FileChannel = inputStream.channel
         val startOffset: Long = fileDescriptor.startOffset
@@ -92,8 +87,8 @@ class ProgressActivity : AppCompatActivity() {
             // Convert the bitmap to a ByteBuffer
             val modelInput = convertBitmapToByteBuffer(resizedImage)
 
-            exposureInference(modelInput)
-            blurInference(modelInput)
+            exposureInference(modelInput, image)
+            blurInference(modelInput, image)
 
             withContext(Dispatchers.Main) {
                 tvStatus.text = "Processing : ${index} out of ${imageList.size}"
@@ -101,18 +96,30 @@ class ProgressActivity : AppCompatActivity() {
         }
     }
 
-    private fun blurInference(buffer: ByteBuffer) {
+    private fun blurInference(buffer: ByteBuffer, image: Image) {
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(2) }
 
         blurInterpreter.run(buffer, resultArray)
         // A number between 0-255 that tells the ratio that the images is blurred
-        Log.d("TAG", "Blinking : ${abs(resultArray[0][0].toInt())}")
+        Log.d("TAG", "Blurred : ${abs(resultArray[0][0].toInt())}")
         // A number between 0-255 that tells the ratio that the images is unblurred
-        Log.d("TAG", "Not Blinking : ${abs(resultArray[0][1].toInt())}")
+        Log.d("TAG", "Not Blurred : ${abs(resultArray[0][1].toInt())}")
+
+        val blurredPercentage = resultArray[0][0] / 255
+
+        if (blurredPercentage > 0.6f) {
+            // the image is blurred
+            blurredImageList.add(image)
+        } else
+            goodImageList.add(image)
     }
 
-    private fun exposureInference(buffer: ByteBuffer) {
+    private fun blinkInference(image: Image) {
+        // TODO: add Firebase MLKit API calls here
+    }
+
+    private fun exposureInference(buffer: ByteBuffer, image: Image) {
 
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(3) }
@@ -124,10 +131,24 @@ class ProgressActivity : AppCompatActivity() {
         Log.d("TAG", "Good : ${abs(resultArray[0][1].toInt())}")
         // A number between 0-255 that tells the ratio that the images is underexposed
         Log.d("TAG", "Underexposed : ${abs(resultArray[0][2].toInt())}")
+
+        val overExposurePercentage = resultArray[0][0] / 255
+        val underExposurePercentage = resultArray[0][2] / 255
+
+        if (overExposurePercentage > 0.6f) {
+            // overexposed
+            overExposeImageList.add(image)
+        } else if (underExposurePercentage > 0.6f) {
+            // underexposed
+            underExposeImageList.add(image)
+        } else {
+            // good image
+            goodImageList.add(image)
+        }
     }
 
     // any coroutines launched inside this scope will run on the main thread unless stated otherwise
-    val uiScope = CoroutineScope(Dispatchers.Main)
+    private val uiScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

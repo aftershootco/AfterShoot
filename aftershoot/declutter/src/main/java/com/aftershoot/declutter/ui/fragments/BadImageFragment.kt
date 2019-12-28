@@ -15,14 +15,19 @@ import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
 import com.aftershoot.declutter.helper.SimpleTouchHelperCallback
 import com.aftershoot.declutter.model.Image
 import com.aftershoot.declutter.ui.ResultImageAdapter
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.blinkImageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.blurredImageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.goodImageList
 import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.overExposeImageList
+import com.aftershoot.declutter.ui.activities.MainActivity.Companion.underExposeImageList
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result_bad.*
 
 
 class BadImageFragment : Fragment() {
 
-    private val selections = arrayOf("Blurred", "Over Exposed", "Under Exposed", "Blinks")
+    private val selections = arrayOf("Good", "Blurred", "Over Exposed", "Under Exposed", "Blinks")
 
     var currentMode = selections[0]
 
@@ -36,20 +41,24 @@ class BadImageFragment : Fragment() {
                 .setItems(selections) { _, which ->
                     when (which) {
                         0 -> {
-//                            updateAdapter(blurredArray)
+                            updateAdapter(goodImageList)
                             currentMode = selections[0]
                         }
                         1 -> {
-//                            updateAdapter(overExposedArray)
+                            updateAdapter(blurredImageList)
                             currentMode = selections[1]
                         }
                         2 -> {
-//                            updateAdapter(underExposedArray)
+                            updateAdapter(overExposeImageList)
                             currentMode = selections[2]
                         }
                         3 -> {
-//                            updateAdapter(blinksArray)
+                            updateAdapter(underExposeImageList)
                             currentMode = selections[3]
+                        }
+                        4 -> {
+                            updateAdapter(blinkImageList)
+                            currentMode = selections[4]
                         }
                     }
                     alertFilter.dismiss()

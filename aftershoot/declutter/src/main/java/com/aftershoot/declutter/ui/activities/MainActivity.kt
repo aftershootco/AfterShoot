@@ -36,8 +36,13 @@ class MainActivity : AppCompatActivity() {
     val RQ_CODE_INTRO = 66
 
     companion object {
-        //for now, move this to a local database later :)
+        // TODO : move this to a local database later
         val imageList = arrayListOf<Image>()
+        val blurredImageList = arrayListOf<Image>()
+        val underExposeImageList = arrayListOf<Image>()
+        val overExposeImageList = arrayListOf<Image>()
+        val goodImageList = arrayListOf<Image>()
+        val blinkImageList = arrayListOf<Image>()
     }
 
     var uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI

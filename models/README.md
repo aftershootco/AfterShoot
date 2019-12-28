@@ -14,7 +14,7 @@ TfLite model that can detect images with poor lighting
 ### Blinks  
 We can use Firebase MLKit's Face detection API to determine if the subject's eyes are closed alongwith their facial expressions (like Smiling probability) to determine if the blink was intentional or unintentional.  
 I've described how this can be done here: https://heartbeat.fritz.ai/blink-detection-on-android-using-firebase-ml-kits-face-detection-api-6d09823db535  
-!{}(https://i.imgur.com/0H5zngK.png)
+![](https://i.imgur.com/0H5zngK.png)
 
 ### Cropped faces
 TfLite model that can detect images containing cropped faces. 

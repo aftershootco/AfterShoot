@@ -2,19 +2,18 @@ package com.aftershoot.declutter.ui.activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
-import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,21 +44,15 @@ class MainActivity : AppCompatActivity() {
         val blinkImageList = arrayListOf<Image>()
     }
 
-    var uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-
-    // Add scoped storage compatibility
-    var projection = arrayOf(MediaStore.MediaColumns.DATA)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Handle the dark theme toggle based on user action
 //        shouldEnableDarkMode(DarkModeConfig.YES)
         setContentView(R.layout.activity_main)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             showSliderAndLogin()
         } else {
-            queryStorage()
+            queryScopedStorage()
         }
     }
 
@@ -71,36 +64,61 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RQ_CODE_INTRO && resultCode == Activity.RESULT_OK) {
-            queryStorage()
+            queryScopedStorage()
         } else {
             Toast.makeText(this, "Something went wrong, please restart the app!", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    private fun queryStorage() {
-        val query = contentResolver.query(
-                uri,
-                projection,
-                null,
-                null,
-                null
+    fun queryScopedStorage() {
+
+        val scopedProjection = arrayOf(
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.SIZE,
+                MediaStore.Images.Media.DATE_TAKEN,
+                MediaStore.Images.Media._ID
         )
-        tvProgress.text = getString(R.string.loading_local_images)
-        query.use { cursor ->
 
-            cursor?.let {
+        val scopedSortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
 
-                while (cursor.moveToNext()) {
-                    val absolutePathOfImage = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
-                    imageList.add(Image(File(absolutePathOfImage)))
+        val query = contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                scopedProjection,
+                null,
+                null,
+                scopedSortOrder
+        )
+
+        query.use {
+            it?.let {
+                val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                val nameColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+                val sizeColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
+                val dateColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)
+
+                while (it.moveToNext()) {
+                    val id = it.getLong(idColumn)
+                    val name = it.getString(nameColumn)
+                    val size = it.getString(sizeColumn)
+                    val date = it.getString(dateColumn)
+
+                    val contentUri = ContentUris.withAppendedId(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            id
+                    )
+
+                    imageList.add(Image(contentUri, name, size, date))
                 }
+            } ?: kotlin.run {
+                Log.e("TAG", "Cursor is null!")
             }
         }
 
         val intent = Intent(this, ProgressActivity::class.java)
         startActivity(intent)
         finish()
+
     }
 
 }

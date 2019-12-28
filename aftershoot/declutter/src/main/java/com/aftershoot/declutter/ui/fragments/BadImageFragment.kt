@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_result_bad.*
 
 class BadImageFragment : Fragment() {
 
-    private val selections = arrayOf("Good", "Blurred", "Over Exposed", "Under Exposed", "Blinks")
+    private val selections = arrayOf("All", "Good", "Blurred", "Over Exposed", "Under Exposed", "Blinks")
 
     var currentMode = selections[0]
 
@@ -41,24 +41,28 @@ class BadImageFragment : Fragment() {
                 .setItems(selections) { _, which ->
                     when (which) {
                         0 -> {
-                            updateAdapter(goodImageList)
+                            updateAdapter(imageList)
                             currentMode = selections[0]
                         }
                         1 -> {
-                            updateAdapter(blurredImageList)
+                            updateAdapter(goodImageList)
                             currentMode = selections[1]
                         }
                         2 -> {
-                            updateAdapter(overExposeImageList)
+                            updateAdapter(blurredImageList)
                             currentMode = selections[2]
                         }
                         3 -> {
-                            updateAdapter(underExposeImageList)
+                            updateAdapter(overExposeImageList)
                             currentMode = selections[3]
                         }
                         4 -> {
-                            updateAdapter(blinkImageList)
+                            updateAdapter(underExposeImageList)
                             currentMode = selections[4]
+                        }
+                        5 -> {
+                            updateAdapter(blinkImageList)
+                            currentMode = selections[5]
                         }
                     }
                     alertFilter.dismiss()

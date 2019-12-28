@@ -2,6 +2,7 @@ package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.net.Uri
+import android.util.Size
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -10,10 +11,8 @@ import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.RecyclerView
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.model.Image
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.android.synthetic.main.layout_image_popup_alert.view.*
-import java.io.File
 
 class ResultImageAdapter(private var images: ArrayList<Image>, private val activity: AppCompatActivity) :
         RecyclerView.Adapter<ResultImageAdapter.ImageHolder>() {
@@ -93,8 +92,11 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
     override fun getItemCount() = images.size
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
+
+        val currentImage = images[position]
+
         // for every item, check to see if it exists in the selected items array
-        if (selectedItems.contains(images[position])) {
+        if (selectedItems.contains(currentImage)) {
             // if the item is selected, let the user know by adding a dark layer above it
             holder.itemView.ivGrid.alpha = 0.3f
         } else {
@@ -106,7 +108,7 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
             if (multiSelect)
                 selectItem(holder, images[holder.adapterPosition])
             else
-                showPopup(images[holder.adapterPosition].file)
+                showPopup(images[holder.adapterPosition].uri)
         }
 
         // set handler to define what happens when an item is long pressed
@@ -121,9 +123,9 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
                 false
         }
 
-        Glide.with(context)
-                .load(images[position].file)
-                .into(holder.itemView.ivGrid)
+        //Don't load the entire image, to save memory
+        val thumbnail = context.contentResolver.loadThumbnail(currentImage.uri, Size(240, 240), null)
+        holder.itemView.ivGrid.setImageBitmap(thumbnail)
     }
 
     private fun selectItem(holder: ImageHolder, image: Image) {
@@ -138,8 +140,8 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
 
     inner class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    private fun showPopup(file: File) {
-        dialogView.ivPopup.setImageURI(Uri.fromFile(file))
+    private fun showPopup(uri: Uri) {
+        dialogView.ivPopup.setImageURI(uri)
         alertDialog.show()
     }
 

@@ -124,7 +124,6 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
         }
 
         //Don't load the entire image, to save memory
-        val thumbnail = context.contentResolver.loadThumbnail(currentImage.uri, Size(240, 240), null)
         holder.itemView.ivGrid.setImageBitmap(thumbnail)
     }
 

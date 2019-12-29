@@ -3,6 +3,7 @@ package com.aftershoot.declutter.ui.activities
 import android.content.Intent
 import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -75,24 +76,22 @@ class ProgressActivity : AppCompatActivity() {
         return byteBuffer
     }
 
-    private suspend fun processImage(image: Image, index: Int) {
-        withContext(Dispatchers.Default) {
+    private suspend fun processImage(image: Image) = withContext(Dispatchers.Default) {
+        val inputStream = contentResolver.openInputStream(image.uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        // Resize the bitmap so that it's 224x224
+        bitmap?.let {
+            val resizedImage =
+                    Bitmap.createScaledBitmap(bitmap, inputImageWidth, inputImageHeight, true)
 
-            // TODO: Figure out a better way to do this, causes memory leaks
-//            val inputStream = contentResolver.openInputStream(image.uri)
-//            val bitmap = BitmapFactory.decodeStream(inputStream)
-//            // Resize the bitmap so that it's 224x224
-//            val resizedImage =
-//                    Bitmap.createScaledBitmap(bitmap, inputImageWidth, inputImageHeight, true)
-//
-//            // Convert the bitmap to a ByteBuffer
-//            val modelInput = convertBitmapToByteBuffer(resizedImage)
-
-//            exposureInference(modelInput, image)
+            // Convert the bitmap to a ByteBuffer
+            val modelInput = convertBitmapToByteBuffer(resizedImage)
+            bitmap.recycle()
+            try {
 //            blurInference(modelInput, image)
-
-            withContext(Dispatchers.Main) {
-                tvStatus.text = "Processing : ${index} out of ${imageList.size}"
+                exposureInference(modelInput, image)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -152,16 +151,19 @@ class ProgressActivity : AppCompatActivity() {
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val currentTime = System.currentTimeMillis()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_progress)
 
-        imageList.forEachIndexed { index, image ->
-            uiScope.launch {
-                processImage(image, index)
+        uiScope.launch {
+            imageList.forEachIndexed { index, image ->
+                processImage(image)
+                tvStatus.text = "Processing : ${index} out of ${imageList.size}"
             }
+            startResultActivity()
+            Log.e("TAG", (System.currentTimeMillis() - currentTime).toString())
+            finish()
         }
-        startResultActivity()
-        finish()
     }
 
     private fun startResultActivity() {

@@ -3,13 +3,11 @@ package com.aftershoot.declutter.ui.activities
 import android.Manifest
 import android.app.Activity
 import android.content.ContentUris
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.util.Size
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -110,9 +108,7 @@ class MainActivity : AppCompatActivity() {
                             id
                     )
 
-                    // generate the thumbnail
-                    val thumbnail = (this as Context).contentResolver.loadThumbnail(contentUri, Size(480, 480), null)
-                    imageList.add(Image(contentUri, thumbnail, name, size, date))
+                    imageList.add(Image(contentUri, null, name, size, date))
 
                 }
             } ?: kotlin.run {

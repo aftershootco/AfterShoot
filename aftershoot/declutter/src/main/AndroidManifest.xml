@@ -27,7 +27,9 @@
         <activity
             android:name="com.aftershoot.declutter.ui.activities.IntroActivity"
             android:theme="@style/AppThemeNoActionbar" />
-        <activity android:name="com.aftershoot.declutter.ui.activities.ProgressActivity" />
+        <activity
+            android:name="com.aftershoot.declutter.ui.activities.ProgressActivity"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name="com.aftershoot.declutter.ui.activities.ResultActivity"
 

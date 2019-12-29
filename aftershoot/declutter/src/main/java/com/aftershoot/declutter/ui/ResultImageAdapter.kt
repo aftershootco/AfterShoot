@@ -2,7 +2,6 @@ package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.net.Uri
-import android.util.Size
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -124,7 +123,7 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
         }
 
         //Don't load the entire image, to save memory
-        holder.itemView.ivGrid.setImageBitmap(thumbnail)
+        holder.itemView.ivGrid.setImageBitmap(currentImage.thumbnail)
     }
 
     private fun selectItem(holder: ImageHolder, image: Image) {

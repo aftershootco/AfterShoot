@@ -56,7 +56,9 @@ class ProgressActivity : AppCompatActivity() {
     }
 
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
+
         val byteBuffer = ByteBuffer.allocateDirect(modelInputSize)
+
         byteBuffer.order(ByteOrder.nativeOrder())
 
         val pixels = IntArray(inputImageWidth * inputImageHeight)
@@ -123,7 +125,7 @@ class ProgressActivity : AppCompatActivity() {
 
         val overExposeImageList = arrayListOf<Image>()
         val underExposeImageList = arrayListOf<Image>()
-        val goodImageList = arrayListOf<Image>()
+        arrayListOf<Image>()
 
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(3) }
@@ -138,6 +140,8 @@ class ProgressActivity : AppCompatActivity() {
 
         val overExposurePercentage = resultArray[0][0] / 255
         val underExposurePercentage = resultArray[0][2] / 255
+
+
 
         if (overExposurePercentage > 0.6f) {
             // overexposed

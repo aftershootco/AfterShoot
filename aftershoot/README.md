@@ -10,12 +10,16 @@ This is an extension to the AfterShoot camera app, that will query the internal 
 ### Feature List
 - [x] Permission Handling
 - [x] Query Internal Storage
-- [ ] Integrate trained models
+- [x] Implement scoped storage
+- [x] Integrate exposure model
+- [x] Integrate blur model
+- [x] Integrate blink model
+- [] Integrate cropped_faces model
+- [x] Implement db to cache inference results
 - [ ] Handle deleton
 - [ ] Handle user feedback
 - [ ] Add Login
 - [ ] Connect and analyze Images backed up on Google Photos
-
 
 ## AfterShoot Camera
 The Main camera module that analyzes the images in real time as you're taking them and suggest fixes that can be made to imrpove them.

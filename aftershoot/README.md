@@ -14,7 +14,7 @@ This is an extension to the AfterShoot camera app, that will query the internal 
 - [x] Integrate exposure model
 - [x] Integrate blur model
 - [x] Integrate blink model
-- [] Integrate cropped_faces model
+- [ ] Integrate cropped_faces model
 - [x] Implement db to cache inference results
 - [ ] Handle deleton
 - [ ] Handle user feedback

@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.RecyclerView
 import com.aftershoot.declutter.R
-import com.aftershoot.declutter.model.Image
+import com.aftershoot.declutter.db.Image
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.android.synthetic.main.layout_image_popup_alert.view.*
 
-class ResultImageAdapter(private var images: ArrayList<Image>, private val activity: AppCompatActivity) :
+class ResultImageAdapter(private var images: List<Image>, private val activity: AppCompatActivity) :
         RecyclerView.Adapter<ResultImageAdapter.ImageHolder>() {
 
     // true if the user in selection mode, false otherwise
@@ -123,18 +124,14 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
                 false
         }
 
-//        // fetch the thumbnail
-        currentImage.thumbnail ?: kotlin.run {
-            try {
-                currentImage.thumbnail = context.contentResolver.loadThumbnail(currentImage.uri, Size(480, 480), null)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                return
-            }
+        try {
+            val thumbnail = context.contentResolver.loadThumbnail(currentImage.uri, Size(480, 480), null)
+            Glide.with(context)
+                    .load(thumbnail)
+                    .into(holder.itemView.ivGrid)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
-        // only load the thumbnail to save memory
-        holder.itemView.ivGrid.setImageBitmap(currentImage.thumbnail)
     }
 
     private fun selectItem(holder: ImageHolder, image: Image) {
@@ -154,7 +151,7 @@ class ResultImageAdapter(private var images: ArrayList<Image>, private val activ
         alertDialog.show()
     }
 
-    fun updateData(newPics: ArrayList<Image>) {
+    fun updateData(newPics: List<Image>) {
         images = newPics
         notifyDataSetChanged()
     }

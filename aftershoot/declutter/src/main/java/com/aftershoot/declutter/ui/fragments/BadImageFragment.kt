@@ -11,29 +11,44 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aftershoot.declutter.R
+import com.aftershoot.declutter.db.*
 import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
 import com.aftershoot.declutter.helper.SimpleTouchHelperCallback
-import com.aftershoot.declutter.model.Image
 import com.aftershoot.declutter.ui.ResultImageAdapter
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.blinkImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.blurredImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.goodImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.overExposeImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.underExposeImageList
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result_bad.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class BadImageFragment : Fragment() {
 
-    private val selections = arrayOf("All", "Good", "Blurred", "Over Exposed", "Under Exposed", "Blinks")
-
+    private val selections = arrayOf("All", "Blurred", "Over Exposed", "Under Exposed", "Blinks", "Cropped Faces")
     var currentMode = selections[0]
 
-    private val itemAdapter by lazy {
-        ResultImageAdapter(imageList, requireActivity() as AppCompatActivity)
+    private val dao by lazy {
+        AfterShootDatabase.getDatabase(requireContext())?.getDao()!!
     }
+
+    private lateinit var allImageList: List<Image>
+    private lateinit var blurredImageList: List<Image>
+    private lateinit var overExposeImageList: List<Image>
+    private lateinit var underExposeImageList: List<Image>
+    private lateinit var blinkImageList: List<Image>
+    private lateinit var croppedImageList: List<Image>
+
+    private suspend fun initLists() = withContext(Dispatchers.IO) {
+        blinkImageList = dao.getBadImage(BLINK)
+        underExposeImageList = dao.getBadImage(UNDER_EXPOSED)
+        overExposeImageList = dao.getBadImage(OVER_EXPOSED)
+        blurredImageList = dao.getBadImage(BLUR)
+        croppedImageList = dao.getBadImage(CROPPED_FACE)
+        allImageList = dao.getAllImages()
+    }
+
+    private lateinit var itemAdapter: ResultImageAdapter
 
     private val alertFilter: AlertDialog by lazy {
         AlertDialog.Builder(requireContext())
@@ -41,27 +56,27 @@ class BadImageFragment : Fragment() {
                 .setItems(selections) { _, which ->
                     when (which) {
                         0 -> {
-                            updateAdapter(imageList)
+                            updateAdapter(allImageList)
                             currentMode = selections[0]
                         }
                         1 -> {
-                            updateAdapter(goodImageList)
+                            updateAdapter(blurredImageList)
                             currentMode = selections[1]
                         }
                         2 -> {
-                            updateAdapter(blurredImageList)
+                            updateAdapter(overExposeImageList)
                             currentMode = selections[2]
                         }
                         3 -> {
-                            updateAdapter(overExposeImageList)
+                            updateAdapter(underExposeImageList)
                             currentMode = selections[3]
                         }
                         4 -> {
-                            updateAdapter(underExposeImageList)
+                            updateAdapter(blinkImageList)
                             currentMode = selections[4]
                         }
                         5 -> {
-                            updateAdapter(blinkImageList)
+                            updateAdapter(croppedImageList)
                             currentMode = selections[5]
                         }
                     }
@@ -75,26 +90,30 @@ class BadImageFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        Log.e("TAG", "BadImg Fragment ${imageList.size}")
         return inflater.inflate(R.layout.fragment_result_bad, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fabFilter.setOnClickListener {
-            alertFilter.show()
+        CoroutineScope(Dispatchers.Main).launch {
+            initLists()
+            Log.e("TAG", "BadImg Fragment ${allImageList.size}")
+            itemAdapter = ResultImageAdapter(allImageList, requireActivity() as AppCompatActivity)
+            fabFilter.setOnClickListener {
+                alertFilter.show()
+            }
+            val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            rvBadPics.layoutManager = layoutManager
+            rvBadPics.adapter = itemAdapter
+            layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            rvBadPics.smoothScrollToPosition(0)
+            val callback = SimpleTouchHelperCallback(toDoAdapter)
+            val touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(rvBadPics)
         }
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        rvBadPics.layoutManager = layoutManager
-        rvBadPics.adapter = itemAdapter
-        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-        rvBadPics.smoothScrollToPosition(0)
-        val callback = SimpleTouchHelperCallback(toDoAdapter)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(rvBadPics)
     }
 
-    private fun updateAdapter(newPics: ArrayList<Image>) {
+    private fun updateAdapter(newPics: List<Image>) {
         itemAdapter.updateData(newPics)
     }
 

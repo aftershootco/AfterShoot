@@ -13,7 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import com.aftershoot.declutter.R
-import com.aftershoot.declutter.model.Image
+import com.aftershoot.declutter.db.AfterShootDatabase
+import com.aftershoot.declutter.db.Image
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,26 +38,37 @@ class MainActivity : AppCompatActivity() {
 
     //Execute order 66
     val RQ_CODE_INTRO = 66
+//
+//    companion object {
+//        // TODO : move this to a local database later
+//        val imageList = arrayListOf<Image>()
+//        val blurredImageList = arrayListOf<Image>()
+//        val underExposeImageList = arrayListOf<Image>()
+//        val overExposeImageList = arrayListOf<Image>()
+//        val goodImageList = arrayListOf<Image>()
+//        val blinkImageList = arrayListOf<Image>()
+//    }
 
-    companion object {
-        // TODO : move this to a local database later
-        val imageList = arrayListOf<Image>()
-        val blurredImageList = arrayListOf<Image>()
-        val underExposeImageList = arrayListOf<Image>()
-        val overExposeImageList = arrayListOf<Image>()
-        val goodImageList = arrayListOf<Image>()
-        val blinkImageList = arrayListOf<Image>()
-    }
+    private val imageList = arrayListOf<Image>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        shouldEnableDarkMode(DarkModeConfig.YES)
         setContentView(R.layout.activity_main)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            showSliderAndLogin()
-        } else {
-            queryScopedStorage()
+        CoroutineScope(Dispatchers.IO).launch {
+            val images = AfterShootDatabase.getDatabase(baseContext)?.getDao()!!.getAllImages()
+            withContext(Dispatchers.Main) {
+                if (images.isNotEmpty()) {
+                    startProgressActivity()
+                } else {
+                    if (ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+                            || ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        showSliderAndLogin()
+                    } else {
+                        queryScopedStorage()
+                    }
+                }
+            }
         }
     }
 
@@ -107,8 +123,7 @@ class MainActivity : AppCompatActivity() {
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                             id
                     )
-
-                    imageList.add(Image(contentUri, null, name, size, date))
+                    imageList.add(Image(contentUri, name, size, date))
 
                 }
             } ?: kotlin.run {
@@ -116,10 +131,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // save all the images into the db
+        CoroutineScope(Dispatchers.IO).launch {
+            AfterShootDatabase.getDatabase(baseContext)?.getDao()?.insertMultipleImages(imageList)
+            startProgressActivity()
+        }
+    }
+
+    private fun startProgressActivity() {
         val intent = Intent(this, ProgressActivity::class.java)
         startActivity(intent)
         finish()
-
     }
 
 }

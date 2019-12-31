@@ -8,12 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
-import com.aftershoot.declutter.model.Image
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.blurredImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.goodImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.imageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.overExposeImageList
-import com.aftershoot.declutter.ui.activities.MainActivity.Companion.underExposeImageList
+import com.aftershoot.declutter.db.*
 import kotlinx.android.synthetic.main.activity_progress.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +40,10 @@ class ProgressActivity : AppCompatActivity() {
 
     private val blurInterpreter by lazy {
         Interpreter(loadModelFile("blur.tflite"))
+    }
+
+    private val dao by lazy {
+        AfterShootDatabase.getDatabase(this)?.getDao()
     }
 
     private fun loadModelFile(modelName: String): MappedByteBuffer {
@@ -87,16 +86,17 @@ class ProgressActivity : AppCompatActivity() {
             // Convert the bitmap to a ByteBuffer
             val modelInput = convertBitmapToByteBuffer(resizedImage)
             bitmap.recycle()
-            try {
 //            blurInference(modelInput, image)
-                exposureInference(modelInput, image)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            exposureInference(modelInput, image)
+            image.processed = true
+            dao?.updateImage(image)
         }
     }
 
     private fun blurInference(buffer: ByteBuffer, image: Image) {
+        val blurredImageList = arrayListOf<Image>()
+        val goodImageList = arrayListOf<Image>()
+
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(2) }
 
@@ -110,9 +110,9 @@ class ProgressActivity : AppCompatActivity() {
 
         if (blurredPercentage > 0.6f) {
             // the image is blurred
+            image.issues.add(BLUR)
             blurredImageList.add(image)
-        } else
-            goodImageList.add(image)
+        }
     }
 
     private fun blinkInference(image: Image) {
@@ -120,6 +120,10 @@ class ProgressActivity : AppCompatActivity() {
     }
 
     private fun exposureInference(buffer: ByteBuffer, image: Image) {
+
+        val overExposeImageList = arrayListOf<Image>()
+        val underExposeImageList = arrayListOf<Image>()
+        val goodImageList = arrayListOf<Image>()
 
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(3) }
@@ -137,15 +141,24 @@ class ProgressActivity : AppCompatActivity() {
 
         if (overExposurePercentage > 0.6f) {
             // overexposed
+            image.issues.add(OVER_EXPOSED)
             overExposeImageList.add(image)
         } else if (underExposurePercentage > 0.6f) {
             // underexposed
+            image.issues.add(UNDER_EXPOSED)
             underExposeImageList.add(image)
-        } else {
-            // good image
-            goodImageList.add(image)
         }
     }
+
+//    private suspend fun generateThumb(image: Image) = withContext(Dispatchers.Default) {
+//        try {
+//            val thumbnail = tvStatus.context.contentResolver.loadThumbnail(image.uri, Size(480, 480), null)
+//            image.thumbnail = thumbnail
+//            thumbnail.recycle()
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
 
     // any coroutines launched inside this scope will run on the main thread unless stated otherwise
     private val uiScope = CoroutineScope(Dispatchers.Main)
@@ -155,14 +168,18 @@ class ProgressActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_progress)
 
-        uiScope.launch {
-            imageList.forEachIndexed { index, image ->
-                processImage(image)
-                tvStatus.text = "Processing : ${index} out of ${imageList.size}"
+        CoroutineScope(Dispatchers.IO).launch {
+            val images = dao?.getUnprocessedImage()
+
+            uiScope.launch {
+                images?.forEachIndexed { index, image ->
+                    processImage(image)
+                    tvStatus.text = "Processing : $index out of ${images.size}"
+                }
+                startResultActivity()
+                Log.e("TAG", (System.currentTimeMillis() - currentTime).toString())
+                finish()
             }
-            startResultActivity()
-            Log.e("TAG", (System.currentTimeMillis() - currentTime).toString())
-            finish()
         }
     }
 

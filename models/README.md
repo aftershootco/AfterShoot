@@ -22,5 +22,5 @@ Another alternate solution is using Pose estimation models to detect whether the
 
 We're working on both of these solutions and will go ahead with the one that works the best.
 
-![](https://i.imgur.com/Aw8Lb96.png)  
+![](https://i.imgur.com/WX66tTd.png)  
 ![](https://i.imgur.com/u4ZWFE7.png)

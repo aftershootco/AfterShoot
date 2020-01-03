@@ -35,10 +35,11 @@ Complete working on the models that identify potentially bad pictures :
   - [x] Blinks - **Done**
   - [x] Over/Underexposed - **Done**
   - [x] Filter Duplicates - **Done**
-  - [ ] Sad Faces in an image, Cropped human faces, Foreign Objects in the image, Aesthetically pleasing images - **Work in Progress**
+  - [x] Cropped Faces - **Done**
+  - [ ] Sad Faces in an image, Foreign Objects in the image, Aesthetically pleasing images - **Work in Progress**
 - **January - February 2019:**   
 Work on a model that will take the flaw in the image (determined from the models above) and apply or suggest a fix that can be made to improve that image.  
-Work on the camera and DeClutter module that will scan user's gallery for bad images.
+Work on the Camera and DeClutter module that will scan user's gallery for bad images.
 - **March 2019:**   
 Add finishing touches to the camera app and integrate it with the trained ML models
 - **April 2019:**   

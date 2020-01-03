@@ -8,7 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
-import com.aftershoot.declutter.db.*
+import com.aftershoot.declutter.db.AfterShootDatabase
+import com.aftershoot.declutter.db.Image
 import kotlinx.android.synthetic.main.activity_progress.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,7 @@ import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 class ProgressActivity : AppCompatActivity() {
 
@@ -90,8 +92,7 @@ class ProgressActivity : AppCompatActivity() {
             bitmap.recycle()
 //            blurInference(modelInput, image)
             exposureInference(modelInput, image)
-            image.processed = true
-            dao?.updateImage(image)
+            dao?.markProcessed(image.uri)
         }
     }
 
@@ -112,9 +113,11 @@ class ProgressActivity : AppCompatActivity() {
 
         if (blurredPercentage > 0.6f) {
             // the image is blurred
-            image.issues.add(BLUR)
+            image.isBlurred = true
             blurredImageList.add(image)
         }
+
+        dao?.updateImage(image)
     }
 
     private fun blinkInference(image: Image) {
@@ -138,20 +141,23 @@ class ProgressActivity : AppCompatActivity() {
         // A number between 0-255 that tells the ratio that the images is underexposed
         Log.d("TAG", "Underexposed : ${abs(resultArray[0][2].toInt())}")
 
-        val overExposurePercentage = resultArray[0][0] / 255
-        val underExposurePercentage = resultArray[0][2] / 255
+        val overExposurePercentage = (resultArray[0][0] / 255f).absoluteValue
+        val underExposurePercentage = (resultArray[0][2] / 255f).absoluteValue
 
 
-
-        if (overExposurePercentage > 0.6f) {
+        if (overExposurePercentage > 0.45f) {
             // overexposed
-            image.issues.add(OVER_EXPOSED)
+            Log.e("TAG", "OverExposed")
+            image.isOverExposed = true
             overExposeImageList.add(image)
-        } else if (underExposurePercentage > 0.6f) {
+        } else if (underExposurePercentage > 0.45f) {
             // underexposed
-            image.issues.add(UNDER_EXPOSED)
+            Log.e("TAG", "UnderExposed")
+            image.isUnderExposed = true
             underExposeImageList.add(image)
         }
+
+        dao?.updateImage(image)
     }
 
 //    private suspend fun generateThumb(image: Image) = withContext(Dispatchers.Default) {

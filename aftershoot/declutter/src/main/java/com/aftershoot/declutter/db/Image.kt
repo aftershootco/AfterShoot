@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 @Entity(tableName = "afterShootImage")
 data class Image(
         @PrimaryKey
@@ -12,12 +11,9 @@ data class Image(
         val name: String,
         val size: String,
         val dateTaken: String?,
-        val issues: ArrayList<String> = arrayListOf(),
+        var isBlurred: Boolean = false,
+        var isOverExposed: Boolean = false,
+        var isUnderExposed: Boolean = false,
+        var isBlink: Boolean = false,
+        var isCroppedFace: Boolean = false,
         var processed: Boolean = false)
-
-
-const val BLUR = "blur"
-const val OVER_EXPOSED = "over_exposure"
-const val UNDER_EXPOSED = "under_exposure"
-const val BLINK = "blink"
-const val CROPPED_FACE = "cropped_face"

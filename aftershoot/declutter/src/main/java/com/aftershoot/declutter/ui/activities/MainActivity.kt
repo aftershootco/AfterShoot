@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.AfterShootDatabase
 import com.aftershoot.declutter.db.Image
+import com.aftershoot.declutter.service.ModelRunnerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             val images = AfterShootDatabase.getDatabase(baseContext)?.getDao()!!.getAllImages()
             withContext(Dispatchers.Main) {
                 if (images.isNotEmpty()) {
-                    startProgressActivity()
+                    startModelRunnerService()
                 } else {
                     if (ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
                             || ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -134,8 +135,20 @@ class MainActivity : AppCompatActivity() {
         // save all the images into the db
         CoroutineScope(Dispatchers.IO).launch {
             AfterShootDatabase.getDatabase(baseContext)?.getDao()?.insertMultipleImages(imageList)
-            startProgressActivity()
+            startModelRunnerService()
         }
+    }
+
+    private fun startModelRunnerService() {
+        val intent = Intent(this, ModelRunnerService::class.java)
+        startService(intent)
+        startResultActivity()
+    }
+
+    private fun startResultActivity() {
+        val intent = Intent(this, ResultActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun startProgressActivity() {

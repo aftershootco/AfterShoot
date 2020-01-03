@@ -14,7 +14,7 @@ import com.aftershoot.declutter.ui.fragments.BadImageFragment
 
 class ResultActivity : AppCompatActivity() {
 
-    val badImageFragment by lazy {
+    private val badImageFragment by lazy {
         BadImageFragment()
     }
 

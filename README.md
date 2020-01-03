@@ -10,6 +10,7 @@ The App comes in two parts :
 This is an extension to the AfterShoot camera app, that will query the internal storage for all the images and filter the bad pictures from the bunch.
 
 ![](https://i.imgur.com/DYNJ1WE.png)
+![](https://i.imgur.com/JAcHq25.png)
 ![](https://i.imgur.com/KokdGiC.png)
 ![](https://i.imgur.com/xMp6FBz.png)
 

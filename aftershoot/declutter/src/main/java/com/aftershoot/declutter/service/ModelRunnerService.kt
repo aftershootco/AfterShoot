@@ -40,6 +40,8 @@ class ModelRunnerService : Service() {
         private var modelInputSize = inputImageWidth * inputImageHeight * channelSize
 
         const val notificationId = 12345
+
+        var isRunning = false
     }
 
     private val notification by lazy {
@@ -81,6 +83,7 @@ class ModelRunnerService : Service() {
     // called when an instance of this service is created, if the service is already running; onStartCommand is called instead
     override fun onCreate() {
         super.onCreate()
+        isRunning = true
         createNotificationChannel()
         startForeground(notificationId, notification)
         CoroutineScope(Dispatchers.IO).launch {
@@ -107,6 +110,11 @@ class ModelRunnerService : Service() {
             // stop the foreground service and remove notification
             stopForeground(true)
         }
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        isRunning = true
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private suspend fun processImage(image: Image) = withContext(Dispatchers.Default) {
@@ -219,6 +227,11 @@ class ModelRunnerService : Service() {
         bitmap.recycle()
 
         return byteBuffer
+    }
+
+    override fun onDestroy() {
+        isRunning = false
+        super.onDestroy()
     }
 
     // used to communicate between service and the activity, skip for now

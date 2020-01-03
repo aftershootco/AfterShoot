@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.AfterShootDatabase
 import com.aftershoot.declutter.db.Image
@@ -141,7 +142,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun startModelRunnerService() {
         val intent = Intent(this, ModelRunnerService::class.java)
-        startService(intent)
+        if (!ModelRunnerService.isRunning)
+            ContextCompat.startForegroundService(this, intent)
         startResultActivity()
     }
 

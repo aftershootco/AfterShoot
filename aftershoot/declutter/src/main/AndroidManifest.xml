@@ -35,7 +35,8 @@
             android:name="com.aftershoot.declutter.ui.activities.ResultActivity"
             android:label="@string/bad_images" />
 
-        <service android:name=".service.ModelRunnerService" />
+        <service android:name=".service.ModelRunnerService"
+            android:foregroundServiceType="dataSync" />
     </application>
 
 </manifest>

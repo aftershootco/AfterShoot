@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class MainActivity : AppCompatActivity() {
 
     enum class DarkModeConfig {
@@ -55,20 +56,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        shouldEnableDarkMode(DarkModeConfig.YES)
         setContentView(R.layout.activity_main)
+
         CoroutineScope(Dispatchers.IO).launch {
             val images = AfterShootDatabase.getDatabase(baseContext)?.getDao()!!.getAllImages()
             withContext(Dispatchers.Main) {
-                if (images.isNotEmpty()) {
+                if (ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+                        || ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    showSliderAndLogin()
+                } else if (images.isNotEmpty()) {
                     startModelRunnerService()
                 } else {
-                    if (ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-                            || ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        showSliderAndLogin()
-                    } else {
-                        queryScopedStorage()
-                    }
+                    queryScopedStorage()
                 }
             }
         }
@@ -142,6 +141,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startModelRunnerService() {
         val intent = Intent(this, ModelRunnerService::class.java)
+        Log.e("TAG", "Service status: ${ModelRunnerService.isRunning}")
         if (!ModelRunnerService.isRunning)
             ContextCompat.startForegroundService(this, intent)
         startResultActivity()

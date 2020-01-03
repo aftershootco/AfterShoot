@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.ui.fragments.BadImageFragment
@@ -39,13 +39,19 @@ class ResultActivity : AppCompatActivity() {
         return false
     }
 
-    fun checkBattery() {
+    private fun checkBattery() {
         if (isBatteryOptimized() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             val name = resources.getString(R.string.app_name)
-            Toast.makeText(applicationContext, "Battery optimization -> All apps -> $name -> Don't optimize", Toast.LENGTH_LONG).show()
 
-            val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-            startActivity(intent)
+            AlertDialog.Builder(this)
+                    .setTitle("Please Disable Battery optimizations")
+                    .setMessage("Let AfterShoot perform image processing in the background.\n\nIn the next screen, select 'All Apps' from the drop-down menu and uncheck 'DeClutter by Aftershoot'")
+                    .setCancelable(false)
+                    .setNeutralButton("Ok") { dialog, which ->
+                        val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                        startActivity(intent)
+                    }
+                    .show()
         }
     }
 

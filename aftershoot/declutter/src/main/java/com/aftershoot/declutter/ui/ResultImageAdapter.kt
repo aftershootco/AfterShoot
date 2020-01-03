@@ -2,7 +2,7 @@ package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.net.Uri
-import android.util.Size
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.Image
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.android.synthetic.main.layout_image_popup_alert.view.*
 
@@ -124,14 +126,16 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
                 false
         }
 
-        try {
-            val thumbnail = context.contentResolver.loadThumbnail(currentImage.uri, Size(480, 480), null)
-            Glide.with(context)
-                    .load(thumbnail)
-                    .into(holder.itemView.ivGrid)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        val requestOptions = RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(240, 240)
+
+        Log.e("TAG", currentImage.uri.toString())
+
+        Glide.with(context)
+                .load(currentImage.uri)
+                .apply(requestOptions)
+                .into(holder.itemView.ivGrid)
     }
 
     private fun selectItem(holder: ImageHolder, image: Image) {

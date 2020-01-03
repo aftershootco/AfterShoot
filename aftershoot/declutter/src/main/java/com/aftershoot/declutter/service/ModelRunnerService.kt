@@ -83,6 +83,7 @@ class ModelRunnerService : Service() {
     // called when an instance of this service is created, if the service is already running; onStartCommand is called instead
     override fun onCreate() {
         super.onCreate()
+        Log.e("TAG", "onCreate Called")
         isRunning = true
         createNotificationChannel()
         startForeground(notificationId, notification)
@@ -106,16 +107,11 @@ class ModelRunnerService : Service() {
 
                     processImage(image)
                 }
+                // stop the foreground service and remove notification
+                stopForeground(true)
+                stopSelf()
             }
-            // stop the foreground service and remove notification
-            stopForeground(true)
-            stopSelf()
         }
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        isRunning = true
-        return super.onStartCommand(intent, flags, startId)
     }
 
     private suspend fun processImage(image: Image) = withContext(Dispatchers.Default) {
@@ -173,23 +169,17 @@ class ModelRunnerService : Service() {
         val resultArray = Array(1) { ByteArray(3) }
 
         exposureInterpreter.run(buffer, resultArray)
-        // A number between 0-255 that tells the ratio that the images is overexposed
-        Log.d("TAG", "Overexposed : ${abs(resultArray[0][0].toInt())}")
-        // A number between 0-255 that tells the ratio that the images is good
-        Log.d("TAG", "Good : ${abs(resultArray[0][1].toInt())}")
-        // A number between 0-255 that tells the ratio that the images is underexposed
-        Log.d("TAG", "Underexposed : ${abs(resultArray[0][2].toInt())}")
 
         val overExposurePercentage = (resultArray[0][0] / 255f).absoluteValue
         val underExposurePercentage = (resultArray[0][2] / 255f).absoluteValue
 
 
-        if (overExposurePercentage > 0.45f) {
+        if (overExposurePercentage > 0.55f) {
             // overexposed
             Log.e("TAG", "OverExposed")
             image.isOverExposed = true
             overExposeImageList.add(image)
-        } else if (underExposurePercentage > 0.45f) {
+        } else if (underExposurePercentage > 0.55f) {
             // underexposed
             Log.e("TAG", "UnderExposed")
             image.isUnderExposed = true
@@ -230,12 +220,13 @@ class ModelRunnerService : Service() {
         return byteBuffer
     }
 
-    override fun onDestroy() {
-        isRunning = false
-        super.onDestroy()
-    }
-
     // used to communicate between service and the activity, skip for now
     override fun onBind(intent: Intent?) = null
+
+    override fun onDestroy() {
+        isRunning = false
+        Log.e("TAG", "onDestroy called")
+        super.onDestroy()
+    }
 
 }

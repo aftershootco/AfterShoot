@@ -95,7 +95,7 @@ class ModelRunnerService : Service() {
                     // set the progressBar to the current Progress
                     val notification = NotificationCompat.Builder(baseContext, "progress_channel")
                             .setSmallIcon(R.drawable.ic_progress)
-                            .setContentTitle("Processing image : $index out of $totalImages")
+                            .setContentTitle("Processing image : $index out of ${totalImages - 1}")
                             .setProgress(totalImages, index, false)
                             // setting the notification as ongoing prevents the user from dismissing it
                             .setOngoing(true)
@@ -109,6 +109,7 @@ class ModelRunnerService : Service() {
             }
             // stop the foreground service and remove notification
             stopForeground(true)
+            stopSelf()
         }
     }
 

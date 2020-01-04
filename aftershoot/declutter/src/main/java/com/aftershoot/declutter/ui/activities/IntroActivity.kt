@@ -16,7 +16,7 @@ import com.github.paolorotolo.appintro.model.SliderPage
 
 class IntroActivity : AppIntro() {
 
-    val RQ_PERMISSION = 12345
+    private val RQ_PERMISSION = 12345
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

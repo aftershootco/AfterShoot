@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.AfterShootDatabase
 import com.aftershoot.declutter.db.Image
 import com.aftershoot.declutter.service.ModelRunnerService
@@ -21,7 +20,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,23 +39,11 @@ class MainActivity : AppCompatActivity() {
 
     //Execute order 66
     val RQ_CODE_INTRO = 66
-//
-//    companion object {
-//        // TODO : move this to a local database later
-//        val imageList = arrayListOf<Image>()
-//        val blurredImageList = arrayListOf<Image>()
-//        val underExposeImageList = arrayListOf<Image>()
-//        val overExposeImageList = arrayListOf<Image>()
-//        val goodImageList = arrayListOf<Image>()
-//        val blinkImageList = arrayListOf<Image>()
-//    }
 
     private val imageList = arrayListOf<Image>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         CoroutineScope(Dispatchers.IO).launch {
             val images = AfterShootDatabase.getDatabase(baseContext)?.getDao()!!.getAllImages()
             withContext(Dispatchers.Main) {
@@ -152,11 +138,4 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
-    private fun startProgressActivity() {
-        val intent = Intent(this, ProgressActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
 }

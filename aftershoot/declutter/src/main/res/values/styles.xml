@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryLightColor</item>
     </style>
+
     <!-- NoActionBar theme. -->
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -18,9 +19,14 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
-    <!--    Popup theme for the contextual menu-->
+
+    <!-- Popup theme for the contextual menu-->
     <style name="PopupMenu" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">@color/primaryDarkColor</item>
+    </style>
+
+    <style name="AppThemeSplash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
 </resources>

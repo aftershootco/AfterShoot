@@ -18,25 +18,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.aftershoot.declutter.ui.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:configChanges="uiMode"
-            android:theme="@style/AppThemeNoActionbar">
+            android:theme="@style/AppThemeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.aftershoot.declutter.ui.activities.IntroActivity"
+            android:name=".ui.activities.IntroActivity"
             android:theme="@style/AppThemeNoActionbar" />
         <activity
-            android:name="com.aftershoot.declutter.ui.activities.ProgressActivity"
-            android:theme="@style/AppThemeNoActionbar" />
-        <activity
-            android:name="com.aftershoot.declutter.ui.activities.ResultActivity"
+            android:name=".ui.activities.ResultActivity"
             android:label="@string/bad_images" />
 
-        <service android:name=".service.ModelRunnerService"
+        <service
+            android:name=".service.ModelRunnerService"
             android:foregroundServiceType="dataSync" />
     </application>
 

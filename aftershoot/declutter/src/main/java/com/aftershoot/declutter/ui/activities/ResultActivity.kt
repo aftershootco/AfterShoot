@@ -30,7 +30,7 @@ class ResultActivity : AppCompatActivity() {
         badImageFragment.notifyBackPressed()
     }
 
-    fun isBatteryOptimized(): Boolean {
+    private fun isBatteryOptimized(): Boolean {
         val pwrm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         val name = applicationContext.packageName
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

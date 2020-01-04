@@ -29,10 +29,10 @@ interface AfterShootDao {
     @Query("SELECT * FROM afterShootImage WHERE processed = 0")
     fun getUnprocessedImage(): List<Image>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insetImage(image: Image)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMultipleImages(images: List<Image>)
 
     @Delete

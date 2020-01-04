@@ -45,13 +45,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
-            val images = AfterShootDatabase.getDatabase(baseContext)?.getDao()!!.getAllImages()
             withContext(Dispatchers.Main) {
                 if (ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
                         || ActivityCompat.checkSelfPermission(baseContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                     showSliderAndLogin()
-                } else if (images.isNotEmpty()) {
-                    startModelRunnerService()
                 } else {
                     queryScopedStorage()
                 }

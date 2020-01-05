@@ -174,12 +174,12 @@ class ModelRunnerService : Service() {
         val underExposurePercentage = (resultArray[0][2] / 255f).absoluteValue
 
 
-        if (overExposurePercentage > 0.55f) {
+        if (overExposurePercentage > 0.4f) {
             // overexposed
             Log.e("TAG", "OverExposed")
             image.isOverExposed = true
             overExposeImageList.add(image)
-        } else if (underExposurePercentage > 0.55f) {
+        } else if (underExposurePercentage > 0.4f) {
             // underexposed
             Log.e("TAG", "UnderExposed")
             image.isUnderExposed = true

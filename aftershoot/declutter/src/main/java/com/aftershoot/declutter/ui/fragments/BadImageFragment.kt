@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aftershoot.declutter.R
@@ -25,18 +27,32 @@ import kotlinx.coroutines.withContext
 
 class BadImageFragment : Fragment() {
 
-    private val selections = arrayOf("Over Exposed", "Under Exposed", "Blinks", "Cropped Faces", "Blurred")
+    private val selections = arrayOf("Over Exposed", "Under Exposed", "Blinks", "Cropped Faces", "Blurred", "Good")
     var currentMode = selections[0]
 
     private val dao by lazy {
         AfterShootDatabase.getDatabase(requireContext())?.getDao()!!
     }
 
-    private lateinit var blurredImageList: List<Image>
-    private lateinit var overExposeImageList: List<Image>
-    private lateinit var underExposeImageList: List<Image>
-    private lateinit var blinkImageList: List<Image>
-    private lateinit var croppedImageList: List<Image>
+    private lateinit var blurredImageList: LiveData<List<Image>>
+    private lateinit var overExposeImageList: LiveData<List<Image>>
+    private lateinit var underExposeImageList: LiveData<List<Image>>
+    private lateinit var blinkImageList: LiveData<List<Image>>
+    private lateinit var croppedImageList: LiveData<List<Image>>
+    private lateinit var goodImageList: LiveData<List<Image>>
+
+    private fun clearObservers() {
+        blurredImageList.removeObserver(observer)
+        overExposeImageList.removeObserver(observer)
+        underExposeImageList.removeObserver(observer)
+        blinkImageList.removeObserver(observer)
+        croppedImageList.removeObserver(observer)
+        goodImageList.removeObserver(observer)
+    }
+
+    private val observer by lazy {
+        Observer<List<Image>> { images -> itemAdapter.updateData(requireNotNull(images)) }
+    }
 
     private suspend fun initLists() = withContext(Dispatchers.IO) {
         blinkImageList = dao.getBlinkImages()
@@ -44,6 +60,7 @@ class BadImageFragment : Fragment() {
         overExposeImageList = dao.getOverExposedImages()
         blurredImageList = dao.getBlurredImages()
         croppedImageList = dao.getCroppedFaceImages()
+        goodImageList = dao.getGoodImages()
     }
 
     private lateinit var itemAdapter: ResultImageAdapter
@@ -52,26 +69,31 @@ class BadImageFragment : Fragment() {
         AlertDialog.Builder(requireContext())
                 .setTitle("Select the filter")
                 .setItems(selections) { _, which ->
+                    clearObservers()
                     when (which) {
                         0 -> {
-                            updateAdapter(overExposeImageList)
+                            overExposeImageList.observe(this, observer)
                             currentMode = selections[0]
                         }
                         1 -> {
-                            updateAdapter(underExposeImageList)
+                            underExposeImageList.observe(this, observer)
                             currentMode = selections[1]
                         }
                         2 -> {
-                            updateAdapter(blinkImageList)
+                            blinkImageList.observe(this, observer)
                             currentMode = selections[2]
                         }
                         3 -> {
-                            updateAdapter(croppedImageList)
+                            croppedImageList.observe(this, observer)
                             currentMode = selections[3]
                         }
                         4 -> {
-                            updateAdapter(blurredImageList)
+                            blurredImageList.observe(this, observer)
                             currentMode = selections[4]
+                        }
+                        5 -> {
+                            goodImageList.observe(this, observer)
+                            currentMode = selections[5]
                         }
                     }
                     alertFilter.dismiss()
@@ -91,7 +113,8 @@ class BadImageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         CoroutineScope(Dispatchers.Main).launch {
             initLists()
-            itemAdapter = ResultImageAdapter(overExposeImageList, requireActivity() as AppCompatActivity)
+            overExposeImageList.observe(viewLifecycleOwner, observer)
+            itemAdapter = ResultImageAdapter(listOf(), requireActivity() as AppCompatActivity)
             fabFilter.setOnClickListener {
                 alertFilter.show()
             }
@@ -104,10 +127,6 @@ class BadImageFragment : Fragment() {
             val touchHelper = ItemTouchHelper(callback)
             touchHelper.attachToRecyclerView(rvBadPics)
         }
-    }
-
-    private fun updateAdapter(newPics: List<Image>) {
-        itemAdapter.updateData(newPics)
     }
 
     private fun notifyItemRemoval(pos: Int) {

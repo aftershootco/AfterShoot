@@ -70,6 +70,8 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     // gson
     implementation 'com.google.code.gson:gson:2.8.6'
+    // livedata
+    implementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
     //test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

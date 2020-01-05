@@ -2,7 +2,6 @@ package com.aftershoot.declutter.ui
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -128,9 +127,7 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
 
         val requestOptions = RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(240, 240)
-
-        Log.e("TAG", currentImage.uri.toString())
+                .override(320, 320)
 
         Glide.with(context)
                 .load(currentImage.uri)

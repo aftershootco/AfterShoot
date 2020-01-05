@@ -1,30 +1,31 @@
 package com.aftershoot.declutter.db
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface AfterShootDao {
     @Query("SELECT * FROM afterShootImage")
-    fun getAllImages(): List<Image>
+    fun getAllImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE isBlurred = 1")
-    fun getBlurredImages(): List<Image>
+    fun getBlurredImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE isOverExposed = 1")
-    fun getOverExposedImages(): List<Image>
+    fun getOverExposedImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE isUnderExposed = 1")
-    fun getUnderExposedImages(): List<Image>
+    fun getUnderExposedImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE isCroppedFace = 1")
-    fun getCroppedFaceImages(): List<Image>
+    fun getCroppedFaceImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE isBlink = 1")
-    fun getBlinkImages(): List<Image>
+    fun getBlinkImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE isBlurred = 0 AND isBlink = 0 AND isCroppedFace = 0 AND isOverExposed = 0 AND isUnderExposed")
-    fun getGoodImages(): List<Image>
+    fun getGoodImages(): LiveData<List<Image>>
 
     @Query("SELECT * FROM afterShootImage WHERE processed = 0")
     fun getUnprocessedImage(): List<Image>

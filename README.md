@@ -1,4 +1,6 @@
-![](https://i.imgur.com/FGF9b1J.jpg)
+![](https://i.imgur.com/FGF9b1J.jpg)  
+
+See [CoverLetter.md](CoverLetter.md) or [CoverLetter.docx](CoverLetter.docx) for more info, #AndroidDevChallenge
 
 # AfterShoot
 Your personal photographer is just a click away.  

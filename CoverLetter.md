@@ -38,12 +38,15 @@ Complete working on the models that identify potentially bad pictures :
   - [x] Cropped Faces - **Done**
   - [ ] Sad Faces in an image, Foreign Objects in the image, Aesthetically pleasing images - **Work in Progress**
 - **January - February 2019:**   
-Work on a model that will take the flaw in the image (determined from the models above) and apply or suggest a fix that can be made to improve that image.  
-Work on the Camera and DeClutter module that will scan user's gallery for bad images.
+  - [x] Add basic functionality to the DeClutter module - **Done**
+  - [x] Integrate the DeClutter module with the trained models - **Done**
+  - [ ] Work on a model that will take the flaw in the image (determined from the models above) and apply or suggest a fix that can be made to improve that image. 
+  - [ ] Work on the Camera module
 - **March 2019:**   
-Add finishing touches to the camera app and integrate it with the trained ML models
+  - [ ] Finish working on the camera module 
+  - [ ] Integrate the camera module with the trained ML models
 - **April 2019:**   
-Finish working on the DeClutter module and integrate it with the trained ML models.
+  - [ ] Bug fixes and model improvements
 - **May 2019:**   
 Initial launch of the app
 

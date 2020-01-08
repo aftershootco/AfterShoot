@@ -45,6 +45,21 @@ interface AfterShootDao {
     @Update
     fun updateImage(image: Image)
 
+    @Query("UPDATE afterShootImage SET isBlurred = 1 WHERE uri = :uri")
+    fun markBlurred(uri: Uri)
+
+    @Query("UPDATE afterShootImage SET isOverExposed = 1 WHERE uri = :uri")
+    fun markOverExposed(uri: Uri)
+
+    @Query("UPDATE afterShootImage SET isUnderExposed = 1 WHERE uri = :uri")
+    fun markUnderExposed(uri: Uri)
+
+    @Query("UPDATE afterShootImage SET isCroppedFace = 1 WHERE uri = :uri")
+    fun markCroppedFaces(uri: Uri)
+
+    @Query("UPDATE afterShootImage SET isBlink = 1 WHERE uri = :uri")
+    fun markBlink(uri: Uri)
+
     // custom update method that only marks the processed column of the entry as true, leaving other fields as it is
     @Query("UPDATE afterShootImage SET processed = 1 WHERE uri = :uri")
     fun markProcessed(uri: Uri)

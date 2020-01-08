@@ -9,14 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aftershoot.declutter.R
-import com.aftershoot.declutter.db.AfterShootDatabase
 import com.aftershoot.declutter.db.Image
 import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
 import com.aftershoot.declutter.helper.SimpleTouchHelperCallback
 import com.aftershoot.declutter.ui.ResultImageAdapter
+import com.aftershoot.declutter.ui.viewmodels.ImagesViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result_bad.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,16 +31,16 @@ class BadImageFragment : Fragment() {
     private val selections = arrayOf("Over Exposed", "Under Exposed", "Blinks", "Cropped Faces", "Blurred", "Good")
     var currentMode = selections[0]
 
-    private val dao by lazy {
-        AfterShootDatabase.getDatabase(requireContext())?.getDao()!!
-    }
-
     private lateinit var blurredImageList: LiveData<List<Image>>
     private lateinit var overExposeImageList: LiveData<List<Image>>
     private lateinit var underExposeImageList: LiveData<List<Image>>
     private lateinit var blinkImageList: LiveData<List<Image>>
     private lateinit var croppedImageList: LiveData<List<Image>>
     private lateinit var goodImageList: LiveData<List<Image>>
+
+    private val imageModel by lazy {
+        ViewModelProviders.of(this).get(ImagesViewModel::class.java)
+    }
 
     private fun clearObservers() {
         blurredImageList.removeObserver(observer)
@@ -55,12 +56,12 @@ class BadImageFragment : Fragment() {
     }
 
     private suspend fun initLists() = withContext(Dispatchers.IO) {
-        blinkImageList = dao.getBlinkImages()
-        underExposeImageList = dao.getUnderExposedImages()
-        overExposeImageList = dao.getOverExposedImages()
-        blurredImageList = dao.getBlurredImages()
-        croppedImageList = dao.getCroppedFaceImages()
-        goodImageList = dao.getGoodImages()
+        blurredImageList = imageModel.blurredImageList
+        blinkImageList = imageModel.blinkImageList
+        underExposeImageList = imageModel.underExposeImageList
+        overExposeImageList = imageModel.overExposeImageList
+        croppedImageList = imageModel.croppedImageList
+        goodImageList = imageModel.goodImageList
     }
 
     private lateinit var itemAdapter: ResultImageAdapter

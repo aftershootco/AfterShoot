@@ -63,7 +63,7 @@ class ModelRunnerService : Service() {
     }
 
     private val dao by lazy {
-        AfterShootDatabase.getDatabase(this)?.getDao()
+        requireNotNull(AfterShootDatabase.getDatabase(this)?.getDao())
     }
 
     private val interpreterOptions by lazy {
@@ -89,10 +89,10 @@ class ModelRunnerService : Service() {
         startForeground(notificationId, notification)
         CoroutineScope(Dispatchers.IO).launch {
             // get the unprocessed images only
-            val images = dao?.getUnprocessedImage()
-            val totalImages = images?.size ?: 0
+            val images = dao.getUnprocessedImage()
+            val totalImages = images.size
             CoroutineScope(Dispatchers.Main).launch {
-                images?.forEachIndexed { index, image ->
+                images.forEachIndexed { index, image ->
                     // set the progressBar to the current Progress
                     val notification = NotificationCompat.Builder(baseContext, "progress_channel")
                             .setSmallIcon(R.drawable.ic_progress)
@@ -114,7 +114,7 @@ class ModelRunnerService : Service() {
         }
     }
 
-    private suspend fun processImage(image: Image) = withContext(Dispatchers.Default) {
+    private suspend fun processImage(image: Image) = withContext(Dispatchers.IO) {
         val inputStream = contentResolver.openInputStream(image.uri)
         val bitmap = BitmapFactory.decodeStream(inputStream)
         // Resize the bitmap so that it's 224x224
@@ -127,13 +127,11 @@ class ModelRunnerService : Service() {
             bitmap.recycle()
 //            blurInference(modelInput, image)
             exposureInference(modelInput, image)
-            dao?.markProcessed(image.uri)
+            dao.markProcessed(image.uri)
         }
     }
 
     private fun blurInference(buffer: ByteBuffer, image: Image) {
-        val blurredImageList = arrayListOf<Image>()
-        val goodImageList = arrayListOf<Image>()
 
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(2) }
@@ -148,23 +146,15 @@ class ModelRunnerService : Service() {
 
         if (blurredPercentage > 0.6f) {
             // the image is blurred
-            image.isBlurred = true
-            blurredImageList.add(image)
+            dao.markBlurred(image.uri)
         }
-
-        dao?.updateImage(image)
     }
 
     private fun blinkInference(image: Image) {
-        // TODO: add Firebase MLKit API calls here
+
     }
 
     private fun exposureInference(buffer: ByteBuffer, image: Image) {
-
-        val overExposeImageList = arrayListOf<Image>()
-        val underExposeImageList = arrayListOf<Image>()
-        arrayListOf<Image>()
-
         // Output you get from your model, this is essentially as we saw in netron
         val resultArray = Array(1) { ByteArray(3) }
 
@@ -173,20 +163,15 @@ class ModelRunnerService : Service() {
         val overExposurePercentage = (resultArray[0][0] / 255f).absoluteValue
         val underExposurePercentage = (resultArray[0][2] / 255f).absoluteValue
 
-
         if (overExposurePercentage > 0.4f) {
             // overexposed
             Log.e("TAG", "OverExposed")
-            image.isOverExposed = true
-            overExposeImageList.add(image)
+            dao.markOverExposed(image.uri)
         } else if (underExposurePercentage > 0.4f) {
             // underexposed
             Log.e("TAG", "UnderExposed")
-            image.isUnderExposed = true
-            underExposeImageList.add(image)
+            dao.markUnderExposed(image.uri)
         }
-
-        dao?.updateImage(image)
     }
 
     private fun loadModelFile(modelName: String): MappedByteBuffer {

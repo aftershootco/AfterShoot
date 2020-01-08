@@ -8,11 +8,15 @@ import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.AfterShootDatabase
 import com.aftershoot.declutter.db.Image
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -127,6 +131,7 @@ class ModelRunnerService : Service() {
             bitmap.recycle()
 //            blurInference(modelInput, image)
             exposureInference(modelInput, image)
+            blinkInference(image)
             dao.markProcessed(image.uri)
         }
     }
@@ -150,8 +155,25 @@ class ModelRunnerService : Service() {
         }
     }
 
-    private fun blinkInference(image: Image) {
+    private var highAccuracyOpts = FirebaseVisionFaceDetectorOptions.Builder()
+            .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
+            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
+            .build()
 
+    private val detector by lazy {
+        FirebaseVision.getInstance().getVisionFaceDetector(highAccuracyOpts)
+    }
+
+    private fun blinkInference(image: Image) {
+        val visionImage = FirebaseVisionImage.fromFilePath(this, image.uri)
+        detector.detectInImage(visionImage).result?.forEach {
+            // if the image contains even a single face with a closed eye, mark the image as blinked
+            if (it.leftEyeOpenProbability < 0.4 || it.rightEyeOpenProbability < 0.4 && it.smilingProbability < 0.3) {
+                dao.markBlink(image.uri)
+                return
+            }
+        }
     }
 
     private fun exposureInference(buffer: ByteBuffer, image: Image) {
@@ -206,7 +228,7 @@ class ModelRunnerService : Service() {
     }
 
     // used to communicate between service and the activity, skip for now
-    override fun onBind(intent: Intent?) = null
+    override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
         isRunning = false

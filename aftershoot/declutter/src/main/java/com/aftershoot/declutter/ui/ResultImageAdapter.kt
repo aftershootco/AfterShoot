@@ -1,6 +1,8 @@
 package com.aftershoot.declutter.ui
 
+import android.app.ActivityOptions
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.*
 import android.widget.Toast
@@ -10,11 +12,11 @@ import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.RecyclerView
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.Image
+import com.aftershoot.declutter.ui.activities.ImageActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_grid.view.*
-import kotlinx.android.synthetic.main.layout_image_popup_alert.view.*
 
 class ResultImageAdapter(private var images: List<Image>, private val activity: AppCompatActivity) :
         RecyclerView.Adapter<ResultImageAdapter.ImageHolder>() {
@@ -110,7 +112,7 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
             if (multiSelect)
                 selectItem(holder, images[holder.adapterPosition])
             else
-                showPopup(images[holder.adapterPosition].uri)
+                showImage(images[holder.adapterPosition].uri, holder)
         }
 
         // set handler to define what happens when an item is long pressed
@@ -147,9 +149,15 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
 
     inner class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    private fun showPopup(uri: Uri) {
-        dialogView.ivPopup.setImageURI(uri)
-        alertDialog.show()
+    private val intent by lazy {
+        Intent(context, ImageActivity::class.java)
+    }
+
+    private fun showImage(uri: Uri, holder: ImageHolder) {
+        intent.putExtra("URI", uri.toString())
+        val options = ActivityOptions
+                .makeSceneTransitionAnimation(activity, holder.itemView.ivGrid, "robot")
+        context.startActivity(intent, options.toBundle())
     }
 
     fun updateData(newPics: List<Image>) {

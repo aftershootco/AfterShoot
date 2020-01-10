@@ -167,13 +167,16 @@ class ModelRunnerService : Service() {
 
     private fun blinkInference(image: Image) {
         val visionImage = FirebaseVisionImage.fromFilePath(this, image.uri)
-        detector.detectInImage(visionImage).result?.forEach {
-            // if the image contains even a single face with a closed eye, mark the image as blinked
-            if (it.leftEyeOpenProbability < 0.4 || it.rightEyeOpenProbability < 0.4 && it.smilingProbability < 0.3) {
-                dao.markBlink(image.uri)
-                return
-            }
-        }
+        detector.detectInImage(visionImage)
+                .addOnSuccessListener {
+                    it.forEach { face ->
+                        // if the image contains even a single face with a closed eye, mark the image as blinked
+                        if (face.leftEyeOpenProbability < 0.4 || face.rightEyeOpenProbability < 0.4 && face.smilingProbability < 0.3) {
+                            dao.markBlink(image.uri)
+                            return@forEach
+                        }
+                    }
+                }
     }
 
     private fun exposureInference(buffer: ByteBuffer, image: Image) {

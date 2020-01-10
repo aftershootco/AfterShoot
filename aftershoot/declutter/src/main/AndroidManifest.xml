@@ -32,7 +32,8 @@
         <activity
             android:name=".ui.activities.ResultActivity"
             android:label="@string/bad_images" />
-
+        <activity android:name=".ui.activities.ImageActivity"
+            android:parentActivityName=".ui.activities.ResultActivity"/>
         <service
             android:name=".service.ModelRunnerService"
             android:foregroundServiceType="dataSync" />

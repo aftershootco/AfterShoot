@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import android.transition.Fade
+import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
@@ -20,6 +22,13 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // be sure to call this before setContentView
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            // set an exit transition
+            exitTransition = Fade()
+            enterTransition = Fade()
+        }
         setContentView(R.layout.activity_result)
         checkBattery()
         supportFragmentManager.beginTransaction().add(R.id.container, badImageFragment).commit()

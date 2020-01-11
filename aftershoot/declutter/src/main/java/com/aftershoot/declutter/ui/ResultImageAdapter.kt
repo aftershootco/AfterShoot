@@ -156,7 +156,7 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
     private fun showImage(uri: Uri, holder: ImageHolder) {
         intent.putExtra("URI", uri.toString())
         val options = ActivityOptions
-                .makeSceneTransitionAnimation(activity, holder.itemView.ivGrid, "robot")
+                .makeSceneTransitionAnimation(activity, holder.itemView.ivGrid, "image")
         context.startActivity(intent, options.toBundle())
     }
 

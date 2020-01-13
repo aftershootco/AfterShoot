@@ -33,6 +33,7 @@
             android:name=".ui.activities.ResultActivity"
             android:label="@string/bad_images" />
         <activity android:name=".ui.activities.ImageActivity"
+            android:theme="@style/AppThemeNoActionbar"
             android:parentActivityName=".ui.activities.ResultActivity"/>
         <service
             android:name=".service.ModelRunnerService"

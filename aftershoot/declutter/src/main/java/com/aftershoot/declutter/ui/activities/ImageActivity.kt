@@ -11,7 +11,6 @@ import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import kotlinx.android.synthetic.main.activity_image.*
 
-
 class ImageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +21,10 @@ class ImageActivity : AppCompatActivity() {
             // set an exit transition
             exitTransition = Explode()
             enterTransition = Explode()
+
+            // shows the transition for 2 seconds
+            exitTransition.duration = 2000
+
         }
         setContentView(R.layout.activity_image)
         val uri = intent.getStringExtra("URI")

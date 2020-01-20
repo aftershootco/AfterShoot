@@ -164,7 +164,7 @@ class BadImageFragment : Fragment(), AdapterCallBack {
         CoroutineScope(Dispatchers.Main).launch {
             initLists()
             overExposeImageList.observe(viewLifecycleOwner, observer)
-            itemAdapter = ResultImageAdapter(listOf(), requireActivity() as AppCompatActivity)
+            itemAdapter = ResultImageAdapter(listOf(), this@BadImageFragment)
             fabFilter.setOnClickListener {
                 alertFilter.show()
             }

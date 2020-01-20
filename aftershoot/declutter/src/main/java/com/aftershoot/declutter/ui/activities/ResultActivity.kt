@@ -2,6 +2,7 @@ package com.aftershoot.declutter.ui.activities
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
@@ -11,6 +12,7 @@ import android.view.Window
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.aftershoot.declutter.R
+import com.aftershoot.declutter.ui.ResultImageAdapter
 import com.aftershoot.declutter.ui.fragments.BadImageFragment
 
 
@@ -63,5 +65,9 @@ class ResultActivity : AppCompatActivity() {
                     .show()
         }
     }
+}
 
+interface AdapterCallBack {
+    fun onSelected()
+    fun showImage(uri: Uri, holder: ResultImageAdapter.ImageHolder)
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.RecyclerView
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.Image
+import com.aftershoot.declutter.ui.activities.AdapterCallBack
 import com.aftershoot.declutter.ui.activities.ImageActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -19,56 +20,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import kotlinx.android.synthetic.main.item_grid.view.*
 
-class ResultImageAdapter(private var images: List<Image>, private val activity: AppCompatActivity) :
+class ResultImageAdapter(private var images: List<Image>, private val callback: AdapterCallBack) :
         RecyclerView.Adapter<ResultImageAdapter.ImageHolder>(), RecyclerViewFastScroller.OnPopupTextUpdate {
 
     // true if the user in selection mode, false otherwise
-    private var multiSelect = false
+    var multiSelect = false
     // Keeps track of all the selected images
-    private val selectedItems = arrayListOf<Image>()
-
-    // Outline what happens when the selection is started
-    private val actionModeCallback: ActionMode.Callback = object : ActionMode.Callback {
-        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-            // Inflate a menu resource providing context menu items
-            val inflater: MenuInflater = mode.menuInflater
-            inflater.inflate(R.menu.menu_result, menu)
-            return true
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            return false // Return false if nothing is done
-        }
-
-        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-
-            val deleteAlert = AlertDialog.Builder(context)
-                    .setTitle("Delete ${selectedItems.size} images?")
-                    .setMessage("This action can't be undone!")
-                    .setCancelable(true)
-                    .setPositiveButton("Yes") { dialog, _ ->
-                        // TODO : Add deletion here
-                        Toast.makeText(context, "${selectedItems.size} images deleted", Toast.LENGTH_SHORT).show()
-                        mode?.finish()
-                    }
-                    .setNegativeButton("No") { dialog, _ ->
-                        mode?.finish()
-                    }
-
-            if (item?.itemId == R.id.action_delete) {
-                // Assuming that the delete button is clicked, handle deletion and finish the multi select process
-                deleteAlert.show()
-            }
-            return true
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode?) {
-            // finished multi selection
-            multiSelect = false
-            selectedItems.clear()
-            notifyDataSetChanged()
-        }
-    }
+    val selectedItems = arrayListOf<Image>()
 
     private val layoutInflater by lazy {
         LayoutInflater.from(context)
@@ -87,7 +45,7 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
                 .create()
     }
 
-    lateinit var context: Context
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageHolder {
         context = parent.context
@@ -113,7 +71,7 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
             if (multiSelect)
                 selectItem(holder, images[holder.adapterPosition])
             else
-                showImage(images[holder.adapterPosition].uri, holder)
+                callback.showImage(images[holder.adapterPosition].uri, holder)
         }
 
         // set handler to define what happens when an item is long pressed
@@ -121,7 +79,8 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
             if (!multiSelect) {
                 // We have started multi selection, so set the flag to true
                 multiSelect = true
-                activity.startSupportActionMode(actionModeCallback)
+
+                callback.onSelected()
                 selectItem(holder, images[holder.adapterPosition])
                 true
             } else
@@ -150,16 +109,6 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
 
     inner class ImageHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    private val intent by lazy {
-        Intent(context, ImageActivity::class.java)
-    }
-
-    private fun showImage(uri: Uri, holder: ImageHolder) {
-        intent.putExtra("URI", uri.toString())
-        val options = ActivityOptions
-                .makeSceneTransitionAnimation(activity, holder.itemView.ivGrid, "image")
-        context.startActivity(intent, options.toBundle())
-    }
 
     fun updateData(newPics: List<Image>) {
         images = newPics

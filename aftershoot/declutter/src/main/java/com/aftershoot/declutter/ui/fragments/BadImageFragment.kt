@@ -1,11 +1,14 @@
 package com.aftershoot.declutter.ui.fragments
 
+import android.app.ActivityOptions
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -17,16 +20,19 @@ import com.aftershoot.declutter.db.Image
 import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
 import com.aftershoot.declutter.helper.SimpleTouchHelperCallback
 import com.aftershoot.declutter.ui.ResultImageAdapter
+import com.aftershoot.declutter.ui.activities.AdapterCallBack
+import com.aftershoot.declutter.ui.activities.ImageActivity
 import com.aftershoot.declutter.ui.viewmodels.ImagesViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_result_bad.*
+import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class BadImageFragment : Fragment() {
+class BadImageFragment : Fragment(), AdapterCallBack {
 
     private val selections = arrayOf("Over Exposed", "Under Exposed", "Blinks", "Cropped Faces", "Blurred", "Good")
     var currentMode = selections[0]
@@ -40,6 +46,49 @@ class BadImageFragment : Fragment() {
 
     private val imageModel by lazy {
         ViewModelProviders.of(this).get(ImagesViewModel::class.java)
+    }
+
+    // Outline what happens when the selection is started
+    private val actionModeCallback: ActionMode.Callback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            // Inflate a menu resource providing context menu items
+            val inflater: MenuInflater = mode.menuInflater
+            inflater.inflate(R.menu.menu_result, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false // Return false if nothing is done
+        }
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+
+            val deleteAlert = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Delete ${itemAdapter.selectedItems.size} images?")
+                    .setMessage("This action can't be undone!")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes") { dialog, _ ->
+                        // TODO : Add deletion here
+                        Toast.makeText(requireContext(), "${itemAdapter.selectedItems.size} images deleted", Toast.LENGTH_SHORT).show()
+                        mode?.finish()
+                    }
+                    .setNegativeButton("No") { dialog, _ ->
+                        mode?.finish()
+                    }
+
+            if (item?.itemId == R.id.action_delete) {
+                // Assuming that the delete button is clicked, handle deletion and finish the multi select process
+                deleteAlert.show()
+            }
+            return true
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+            // finished multi selection
+            itemAdapter.multiSelect = false
+            itemAdapter.selectedItems.clear()
+            itemAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun clearObservers() {
@@ -159,6 +208,21 @@ class BadImageFragment : Fragment() {
             Snackbar.make(fabFilter, "Marked as a good picture", Snackbar.LENGTH_SHORT).show()
             notifyItemRemoval(position)
         }
+    }
+
+    override fun onSelected() {
+        (requireActivity() as AppCompatActivity).startSupportActionMode(actionModeCallback)
+    }
+
+    private val intent by lazy {
+        Intent(context, ImageActivity::class.java)
+    }
+
+    override fun showImage(uri: Uri, holder: ResultImageAdapter.ImageHolder) {
+        intent.putExtra("URI", uri.toString())
+        val options = ActivityOptions
+                .makeSceneTransitionAnimation(activity, holder.itemView.ivGrid, "image")
+        requireContext().startActivity(intent, options.toBundle())
     }
 
 }

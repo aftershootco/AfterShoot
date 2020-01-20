@@ -16,10 +16,11 @@ import com.aftershoot.declutter.ui.activities.ImageActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import kotlinx.android.synthetic.main.item_grid.view.*
 
 class ResultImageAdapter(private var images: List<Image>, private val activity: AppCompatActivity) :
-        RecyclerView.Adapter<ResultImageAdapter.ImageHolder>() {
+        RecyclerView.Adapter<ResultImageAdapter.ImageHolder>(), RecyclerViewFastScroller.OnPopupTextUpdate {
 
     // true if the user in selection mode, false otherwise
     private var multiSelect = false
@@ -170,5 +171,7 @@ class ResultImageAdapter(private var images: List<Image>, private val activity: 
         multiSelect = false
         notifyDataSetChanged()
     }
+
+    override fun onChange(position: Int) = images[position].dateTaken.toString()
 
 }

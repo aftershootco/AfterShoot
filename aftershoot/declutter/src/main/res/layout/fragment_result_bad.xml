@@ -4,10 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBadPics"
+    <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+        android:id="@+id/fastscroller"
+        app:handleHeight="32dp"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBadPics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="18dp" />
+    </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabFilter"

@@ -172,7 +172,9 @@ class ModelRunnerService : Service() {
                     it.forEach { face ->
                         // if the image contains even a single face with a closed eye, mark the image as blinked
                         if (face.leftEyeOpenProbability < 0.4 || face.rightEyeOpenProbability < 0.4 && face.smilingProbability < 0.3) {
-                            dao.markBlink(image.uri)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                dao.markBlink(image.uri)
+                            }
                             return@forEach
                         }
                     }
@@ -188,11 +190,11 @@ class ModelRunnerService : Service() {
         val overExposurePercentage = (resultArray[0][0] / 255f).absoluteValue
         val underExposurePercentage = (resultArray[0][2] / 255f).absoluteValue
 
-        if (overExposurePercentage > 0.4f) {
+        if (overExposurePercentage > 0.45f) {
             // overexposed
             Log.e("TAG", "OverExposed")
             dao.markOverExposed(image.uri)
-        } else if (underExposurePercentage > 0.4f) {
+        } else if (underExposurePercentage > 0.45f) {
             // underexposed
             Log.e("TAG", "UnderExposed")
             dao.markUnderExposed(image.uri)

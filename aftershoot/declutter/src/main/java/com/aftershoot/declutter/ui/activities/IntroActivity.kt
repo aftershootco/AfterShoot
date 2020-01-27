@@ -26,7 +26,6 @@ class IntroActivity : AppIntro() {
             description = "An app to help manage your storage"
             imageDrawable = R.drawable.logo_horiz
             bgColor = ContextCompat.getColor(baseContext, R.color.primaryColor)
-
         }
 
         addSlide(AppIntroFragment.newInstance(sliderOne))
@@ -70,5 +69,4 @@ class IntroActivity : AppIntro() {
             requestPermissions()
         }
     }
-
 }

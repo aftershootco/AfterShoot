@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aftershoot.declutter.R
 import com.aftershoot.declutter.db.Image
 import com.aftershoot.declutter.helper.ItemTouchHelperAdapter
@@ -24,15 +24,27 @@ import com.aftershoot.declutter.ui.activities.AdapterCallBack
 import com.aftershoot.declutter.ui.activities.ImageActivity
 import com.aftershoot.declutter.ui.viewmodels.ImagesViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageMetadata
 import kotlinx.android.synthetic.main.fragment_result_bad.*
 import kotlinx.android.synthetic.main.item_grid.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 
 class BadImageFragment : Fragment(), AdapterCallBack {
+
+    enum class QUALITY {
+        GOOD,
+        BLURRED,
+        BLINKS,
+        OVEREXPOSED,
+        UNDEREXPOSED,
+        CROPPED_FACES
+    }
 
     private val selections = arrayOf("Over Exposed", "Under Exposed", "Blinks", "Cropped Faces", "Blurred", "Good")
     var currentMode = selections[0]
@@ -43,6 +55,8 @@ class BadImageFragment : Fragment(), AdapterCallBack {
     private lateinit var blinkImageList: LiveData<List<Image>>
     private lateinit var croppedImageList: LiveData<List<Image>>
     private lateinit var goodImageList: LiveData<List<Image>>
+
+    private val rootRef = FirebaseStorage.getInstance().reference.child("user_feedback")
 
     private val imageModel by lazy {
         ViewModelProviders.of(this).get(ImagesViewModel::class.java)
@@ -168,10 +182,9 @@ class BadImageFragment : Fragment(), AdapterCallBack {
             fabFilter.setOnClickListener {
                 alertFilter.show()
             }
-            val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            val layoutManager = GridLayoutManager(requireContext(), 3)
             rvBadPics.layoutManager = layoutManager
             rvBadPics.adapter = itemAdapter
-            layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
             rvBadPics.smoothScrollToPosition(0)
             val callback = SimpleTouchHelperCallback(toDoAdapter)
             val touchHelper = ItemTouchHelper(callback)
@@ -224,5 +237,34 @@ class BadImageFragment : Fragment(), AdapterCallBack {
                 .makeSceneTransitionAnimation(activity, holder.itemView.ivGrid, "image")
         requireContext().startActivity(intent, options.toBundle())
     }
+
+    fun uploadImage(image: Image, quality: QUALITY) {
+
+        // specify the metadata of the uploaded file
+        val metadata = StorageMetadata.Builder()
+                .setContentType("image/jpeg")
+                .build()
+
+        val task = getFirebaseRef(quality)
+                .child(image.uri.lastPathSegment ?: "${image.name}.jpg")
+                .putFile(image.uri, metadata)
+                .addOnProgressListener {
+                    // notify the user about current progress
+                    val completePercent = (it.bytesTransferred / it.totalByteCount) * 100
+                    if (completePercent.toInt() % 10 == 0) {
+                        Toast.makeText(requireContext(), "Uploading : ${completePercent}% done", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnSuccessListener {
+                    // file upload complered
+                    Toast.makeText(requireContext(), "Feedback submitted!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    // file upload failed̥
+                    it.printStackTrace()
+                }
+    }
+
+    private fun getFirebaseRef(quality: QUALITY) = rootRef.child(quality.toString().toLowerCase(Locale.ROOT))
 
 }
